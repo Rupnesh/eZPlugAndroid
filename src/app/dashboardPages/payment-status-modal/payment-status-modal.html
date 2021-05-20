@@ -1,0 +1,20 @@
+<ion-content class="payment-modal">
+	<div id="myModal" class="modal fade">
+		<div class="modal-dialog modal-confirm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="icon-box" [ngClass]="txStatus === 'SUCCESS' ? 'successPayment' : 'failedPayment'">
+						<ion-icon [name]="txStatus === 'SUCCESS' ? 'checkmark' : 'close' "></ion-icon>
+					</div>
+					<h4 class="modal-title">{{txStatus === 'SUCCESS' ? 'Success!!!' : 'Failed!!!'}}</h4>
+				</div>
+				<div class="modal-body">
+					<p class="text-center">{{txStatus === 'SUCCESS' ? successMessage : failedMessage}}</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success btn-block" (click)="closeModal()" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</ion-content>

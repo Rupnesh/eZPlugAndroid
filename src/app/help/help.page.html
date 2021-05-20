@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button><ion-icon name="grid-outline"></ion-icon></ion-menu-button>
+      <!-- <ion-back-button defaultHref="app/dashboard"></ion-back-button> -->
+    </ion-buttons>
+    <ion-title>
+      Help & Support
+    </ion-title>
+    <!-- <ion-buttons slot="primary">
+      <ion-button fill="clear">
+        <ion-icon slot="end" style="color: #fff;" name="power"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-row *ngFor="let question of questionsList; let i=index" class="slideleft">
+    <ion-col style="padding: 16px 16px 8px !important;" size="12">
+      <strong><ion-text color="primary" tappable style="font-size: 14px;" (click)="toggleGroup(question, i)">{{question.question}}</ion-text></strong>
+    </ion-col>
+    <ion-col style="padding: 0 16px !important;" size="12" >
+      <ion-text [@container]="'flyIn'" class="flyin" color="primary" style="font-size: 12px;" *ngIf="question.show">{{question.answer}}</ion-text>
+      <!-- <ion-text [@container]="'flyIn'" style="font-size: 12px; color: #737373;" *ngIf="question.show">{{question.answer}}</ion-text> -->
+      <!-- <ion-text @container style="font-size: 12px; color: #737373;" *ngIf="question.show">{{question.answer}}</ion-text> -->
+    </ion-col>
+  </ion-row> 
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="bouncein">
+    <ion-fab-button (click)="composeMail()">
+      <ion-icon name="mail"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

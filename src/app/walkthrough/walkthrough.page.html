@@ -1,0 +1,109 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button class="skip-walkthrough-button" fill="clear" (click)="skipWalkthrough()">skip</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-slides class="walkthrough-slides" pager="true" [options]="slidesOptions">
+    <ion-slide class="first-slide illustration-and-decoration-slide" style="background: #fff !important;">
+      <ion-row class="slide-inner-row">
+        <ion-col class="illustration-col">
+          <ion-img class="illustration-image" src="assets/images/walkthrough-illustration-1.svg"></ion-img>
+        </ion-col>
+        <ion-col class="decoration-col">
+          <svg class="vector-decoration" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" height="100px" width="100%" viewBox="0 0 90 20" style="enable-background:new 0 0 90 20;" xml:space="preserve" preserveAspectRatio="none">
+            <path d="M0 0 V5 H5 C25 5 25 20 45 20 S65 5 85 5 H90 V0 Z"/>
+          </svg>
+        </ion-col>
+        <ion-col class="info-col">
+          <div class="info-wrapper">
+            <h3 class="info-title">What's the purpose of App?</h3>
+            <p class="info-paragraph">
+              This app is created by <b>Ztric India</b> team, to help the users of Electronic Vehicle.
+            </p>
+            <p class="info-paragraph">
+              <b>User's with this App can easily access the charging station to get charged their vehicles.</b>
+            </p>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-slide>
+    <ion-slide class="second-slide illustration-and-decoration-slide" style="background: #fff !important;">
+      <ion-row class="slide-inner-row">
+        <ion-col class="illustration-col">
+          <ion-img class="illustration-image" src="assets/images/walkthrough-illustration-2.svg"></ion-img>
+        </ion-col>
+        <ion-col class="decoration-col">
+          <svg class="vector-decoration" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" height="100px" width="100%" viewBox="0 0 64 24" style="enable-background:new 0 0 64 24;" xml:space="preserve" preserveAspectRatio="none">
+            <path d="M0 0 L64 0 L64 24 Q56 24 48 16 Q34 0 22 10 Q10 22 0 8 Z"/>
+          </svg>
+        </ion-col>
+        <ion-col class="info-col">
+          <div class="info-wrapper">
+            <h3 class="info-title">How to use this App?</h3>
+            <p class="info-paragraph">
+              User with this App can easily find the nearby stations which are active, and using the QR code available on the satation they can connect by scanning the code.
+            </p>
+            <p class="info-paragraph">
+              User can find the stations within the specific radius from the current location.
+            </p>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-slide>
+    <ion-slide class="third-slide illustration-and-decoration-slide" style="background: #fff !important;">
+      <ion-row class="slide-inner-row">
+        <ion-col class="illustration-col">
+          <ion-img class="illustration-image" src="assets/images/walkthrough-illustration-3.svg"></ion-img>
+        </ion-col>
+        <ion-col class="decoration-col">
+          <svg class="vector-decoration" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" height="100px" width="100%" viewBox="0 0 64 14" style="enable-background:new 0 0 64 24;" xml:space="preserve" preserveAspectRatio="none">
+            <path d="M0 0 V5 H5 C19 5 25 14 32 14 S45 5 59 5 H64 V0 Z"/>
+          </svg>
+        </ion-col>
+        <ion-col class="info-col">
+          <div class="info-wrapper">
+            <h3 class="info-title">Plug and Play.</h3>
+            <p class="info-paragraph">
+              This app provides the feature to the user that once plug the cable to station, station cares the further that cable might not get into unauthorised user, as station has Locking feature.
+            </p>
+            <p class="info-paragraph">
+              Once user done with the charging and pay the Bill amount, than the cable is unlocked from the station.
+            </p>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-slide>
+    <ion-slide class="last-slide illustration-and-decoration-slide" style="background: #fff !important;">
+      <ion-row class="slide-inner-row">
+        <ion-col class="illustration-col">
+          <ion-img class="illustration-image" src="assets/images/walkthrough-illustration-4.svg"></ion-img>
+        </ion-col>
+        <ion-col class="decoration-col">
+          <svg class="vector-decoration" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" height="100px" width="100%" viewBox="0 0 64 18" style="enable-background:new 0 0 64 24;" xml:space="preserve" preserveAspectRatio="none">
+            <path d="M0 0 L64 0 L64 10 Q56 24 46 12 Q34 0 26 8 Q10 22 0 8 Z"/>
+          </svg>
+        </ion-col>
+        <ion-col class="info-col">
+          <ion-row class="info-outer">
+            <ion-col>
+              <div class="info-wrapper">
+                <h3 class="info-title">It's time to start</h3>
+                <p class="info-paragraph">
+                  Hope you like this tutorial, let's connect with the Station.
+                </p>
+              </div>
+            </ion-col>
+            <ion-col class="call-to-actions-wrapper">
+              <ion-button class="get-started-button" expand="block" (click)="getStarted('login')">Login here</ion-button>
+
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

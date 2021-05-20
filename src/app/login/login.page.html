@@ -1,0 +1,66 @@
+<ion-content>
+  
+  <div class="parent">
+    <div class="container">
+
+      <div class="ion-text-center">
+        <img class="svgImage" src="assets/ztricLoginLogo.svg">
+        <!-- <img class="svgImage" src="assets/logologinnew.svg"> -->
+        <!-- <img class="svgImage" src="assets/loginSVG.svg"> -->
+      </div>
+
+
+      <ion-grid style="height: 100%; width: 100%;">
+        <ion-row style="width: 100%;" class="ion-justify-content-center">
+          <ion-col size="12" size-sm="8" size-md="8" size-lg="6" size-xl="4" style="padding: 16px;">
+      
+            <div class="form ion-text-center">
+              <ion-text color="primary"><h2>Login</h2></ion-text>
+              <ion-item lines="none">
+                <ion-input placeholder="Mobile Number" type="tel" pattern="[7-9]{1}[0-9]{9}" maxlength="10"
+                  (ionChange)="mobileInput()" style="text-align: center;" [(ngModel)]="mobileNumber"></ion-input>
+              </ion-item>
+
+              <ion-button expand="block" shape="round" (click)="doLogin()">
+                Login / SignUp <ion-icon name="arrow-forward"></ion-icon>
+              </ion-button>
+            </div>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    
+    
+    </div>
+  </div>
+</ion-content>
+
+
+<!-- <ion-content class="login-content ion-text-center vertical-align-content">
+  <ion-grid style="height: 100%; width: 100%;">
+    <ion-row style="width: 100%;" class="ion-justify-content-center">
+      <ion-col size="12" size-sm="8" size-md="8" size-lg="6" size-xl="4" style="padding: 16px;"
+        class='web-background'>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="3" size-sm="3" size-md="3" size-lg="3" size-xl="3">
+            <img style="border-radius: 10px;height:62px;width:62px; margin: auto;" src="../../assets/logo4.png">
+          </ion-col>
+          <ion-col size="9" size-sm="8" size-md="6" size-lg="6" size-xl="6" class="ion-text-left">
+            <p class="header-text" style="font-size: 32px; color: #fff;"><strong>eZCharge</strong></p>
+            <p class="header-text" style="color: #fff;">Charger Station App</p>
+          </ion-col>
+        </ion-row>
+        <div class="social-auth-options" style="margin-top: 16px;">
+          <div class="input-item">
+            <ion-input placeholder="Mobile Number" type="tel" pattern="[7-9]{1}[0-9]{9}" maxlength="10"
+              (ionChange)="mobileInput()" [(ngModel)]="mobileNumber"></ion-input>
+          </div>
+          <ion-button class="social-auth-btn facebook-auth-btn" fill="outline"
+            expand="block" color="facebook" (click)="doLogin()">
+            Login / SignUp <ion-icon name="arrow-forward"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content> -->

@@ -1,0 +1,22 @@
+{
+  "OK": "OK",
+  "CANCEL": "Cancel",
+  "SAVE": "Save",
+  "ADD": "Add",
+  "SELECT_LANGUAGE": "Select your language",
+  "FIRST_NAME": "First Name",
+  "LAST_NAME": "Last Name",
+  "EMAIL": "Email",
+  "PHONE": "Phone",
+  "COMPANY": "Company",
+  "VEHICLE_NAME": "Vehicle Name",
+  "VEHICLE_TYPE": "Vehicle Type",
+  "CHARGER_TYPE": "Charger Type",
+  "EDIT": "Edit",
+  "UPDATE": "Update",
+  "DETAILS": "Details",
+  "VEHICLES": "Vehicle",
+  "ADD_DONE": "Record Added !!!",
+  "UPDATE_DONE": "Record Updated !!!",
+  "NO_DATA_FOUND": "No data found"
+}

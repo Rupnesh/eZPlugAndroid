@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Bill</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="login-content ion-text-center vertical-align-content">
+
+  <ion-grid style="height: 100%; width: 100%;">
+    <ion-row style="width: 100%;">
+      <ion-col size="12" *ngIf="invoiceData">
+
+        <ion-row style="margin-bottom: 16px;" class="ion-justify-content-center">
+          <ion-col size="12">
+            <ion-img style="height:80px;width:80px; margin: auto;" src="../../assets/logo.png"></ion-img>
+            <h4 class="ion-text-center"><ion-text color="primary">Invoice</ion-text></h4>
+          </ion-col>
+
+          <ion-col size="12" >
+            <ion-row class="ion-text-left">
+              <ion-col style="height:32px" size="7">
+                <h6><ion-text color="primary">Charge Duration</ion-text></h6>
+              </ion-col>
+              <ion-col style="height:32px" size="5" class="ion-text-right">
+                <p><ion-text color="primary">{{convertToTimeFormat(energyConsumed_Time)}} hour</ion-text></p> 
+              </ion-col>
+
+              <ion-col style="height:32px" size="7">
+                <h6><ion-text color="primary">Energy Consumed</ion-text></h6>
+              </ion-col>
+              <ion-col style="height:32px" size="5" class="ion-text-right">
+                <p><ion-text color="primary">{{ returnNumber(invoiceData.units) }} kWh</ion-text></p>
+              </ion-col>
+
+              <ion-col style="height:32px" size="7">
+                <h6><ion-text color="primary">Bill Charged</ion-text></h6>
+              </ion-col>
+              <ion-col style="height:32px" size="5" class="ion-text-right">
+                <p><ion-text color="primary">₹ {{ returnNumberPrice(invoiceData.perUnitTotalCost) }}</ion-text> </p>
+              </ion-col>
+
+              <ion-col style="height:32px" size="7">
+                <h6><ion-text color="primary">Other Charges</ion-text></h6>
+              </ion-col>
+              <ion-col style="height:32px" size="5" class="ion-text-right">
+                <p> <ion-text color="primary">₹ {{ returnNumberPrice(invoiceData.serviceCharge + invoiceData.baseTransactionFee)   }}</ion-text></p>
+                <!-- <p> ₹ {{ parseFloat(invoiceData.serviceCharge).toFixed(2)   }}</p> -->
+                <!-- <p> ₹ {{invoiceData.serviceCharge }}</p> -->
+              </ion-col>
+
+              <ion-item-divider style="margin-top: 16px;"></ion-item-divider>
+
+              <ion-col style="height:32px" size="7">
+                <h6><ion-text color="primary">Total</ion-text></h6>
+              </ion-col>
+              <ion-col style="height:32px" size="5" class="ion-text-right">
+                <p> <ion-text color="primary">₹ {{ returnNumberPrice(invoiceData.grandTotal) }}</ion-text></p>
+              </ion-col> 
+
+
+            </ion-row>
+          </ion-col>
+        </ion-row>
+
+
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="10">
+            <ion-button expand="block" color="primary" (click)="makePayment()">
+              <ion-spinner *ngIf="paymentButtonCreateOrderLoader" name="bubbles"></ion-spinner>Payment</ion-button>
+          </ion-col>
+        </ion-row>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  
+</ion-content>
+

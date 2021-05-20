@@ -1,0 +1,151 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button *ngIf="!transactionStatus" routerLink="/app/station-details"></ion-back-button>
+      <!-- <ion-back-button  defaultHref="app/station-details"></ion-back-button> -->
+    </ion-buttons>
+    <ion-title>Charging</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+ 
+  <ion-card >
+    <ion-row class="ion-padding">
+      <ion-col size="7">
+        <!-- <h6 style="margin: 0;">{{stationDetails.siteName}}</h6> -->
+        <h4 style="margin: 0;"> <ion-text color="primary">{{stationDetails.siteName}}</ion-text></h4>
+      </ion-col>
+      <ion-col size="5" (click)="callStation(stationDetails.contact)" class="ion-text-right">
+        <span style="text-decoration: underline;display: flex; float: right;">
+          <ion-icon style="margin-right:5px" name="call" color="primary"></ion-icon>
+          <ion-text color="primary">{{stationDetails.contact}}</ion-text>
+
+        </span>
+      </ion-col>
+      <ion-col size="12">
+        <ion-icon style="margin-right:5px" name="pin" color="primary"></ion-icon> 
+        <ion-text color="primary">{{stationDetails.address}}</ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-item-divider style="min-height: 0px;"></ion-item-divider>
+
+    <!-- <ion-card-header>
+      <ion-card-title class="ion-text-center">CHARGING STATUS</ion-card-title>
+    </ion-card-header> -->
+
+    <ion-card-content>
+
+      <ion-row>
+        <div #refresh (click)="refreshChargedData()" id="refresh"  style="position: absolute; top: 0; right: 0; padding: 16px; z-index: 99999;">
+          <ion-icon color="primary" name="refresh-outline" style="font-size: 20px;"></ion-icon>
+        </div>
+        <ion-col size="12">
+          <ion-img *ngIf="!charge" style="height: 200px;" src="../../assets/images/loaders/chargeFinal.svg"></ion-img>
+          <ion-img *ngIf="charge" style="height: 200px;" src="../../assets/images/loaders/chargeFinalAni.svg"></ion-img>
+
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row style="padding: 15px 7px;" class="ion-justify-content-center">
+        <ion-col size="4" size-sm="4" size-md="3" size-lg="3" size-xl="2" class="ion-text-center progress">
+          <p>Time</p>
+          <p>{{convertToTimeFormat(time)}}</p>
+          <span>hour</span>
+        </ion-col>
+        <ion-col size="4" size-sm="4" size-md="3" size-lg="3" size-xl="2" class="ion-text-center progress">
+          <p>kWh</p>
+          <p>{{returnNumber(kwh)}}</p>
+          <span>units</span>
+        </ion-col>
+        <ion-col size="4" size-sm="4" size-md="3" size-lg="3" size-xl="2" class="ion-text-center progress">
+          <p>Cost</p>
+          <p>{{returnNumber(cost)}}</p>
+          <span>INR</span>
+        </ion-col>
+      </ion-row> 
+
+      <ion-row class="ion-justify-content-center">
+        <!-- <ion-col size="12" size-sm="12" size-md="9" size-lg="9" size-xl="6" *ngIf="!transactionStatus && stopRequest">
+          <ion-button (click)="startCharging()" class="submit-btn" expand="block" color="primary" type="submit"
+            fill="solid">START</ion-button>
+        </ion-col>
+        <ion-col size="12" size-sm="12" size-md="9" size-lg="9" size-xl="6" *ngIf="transactionStatus">
+          <ion-button (click)="stopCharging()" class="submit-btn" expand="block" color="primary" type="submit"
+            fill="solid">STOP</ion-button>
+        </ion-col> -->
+        <ion-col size="12" size-sm="12" size-md="9" size-lg="9" size-xl="6" >
+          <ion-button (click)="stopCharging()" [disabled]="stopClicked" class="submit-btn" expand="block" color="primary" type="submit"
+            fill="solid">STOP</ion-button>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row class="ion-justify-content-center">
+        <!-- <ion-col size="4" size-sm="4" size-md="3" size-lg="3" size-xl="2" class="ion-text-center">
+          <div class="avatar-circle">
+            <ion-icon class="initials" [color]="!btnPayment ? 'primary' : 'light'" name="ios-card"></ion-icon>
+          </div>
+          <ion-text color="primary" style="display: grid" [ngClass]="btnPayment ? 'text-icon-muted' : '' ">
+            <ion-label style="font-size: 12px;padding-top: 10px;">Step 1</ion-label>
+            <ion-label style="font-size: 12px;">Make Payment</ion-label>
+          </ion-text>
+          <ion-button *ngIf="!btnPaymentLoader" [disabled]="btnPayment" (click)="boxSteps('payment')" shape="outline"
+            expand="block">Payment
+          </ion-button>
+          <ion-button *ngIf="btnPaymentLoader" [disabled]="btnPayment" shape="outline" expand="block">
+            <ion-spinner style="text-align: center; display: block; margin: 0 auto;" name="bubbles"></ion-spinner>
+          </ion-button>
+        </ion-col> -->
+
+        <ion-col size="6" size-sm="6" size-md="3" size-lg="3" size-xl="2" class="ion-text-center">
+          <div class="avatar-circle">
+            <ion-icon class="initials" [color]="!btnUnlock ? 'primary' : 'light'" name="lock-open-outline"></ion-icon>
+          </div>
+          <ion-text color="primary" style="display: grid" [ngClass]="btnUnlock ? 'text-icon-muted' : '' ">
+            <ion-label style="font-size: 12px;padding-top: 10px;">Step 1</ion-label>
+            <ion-label style="font-size: 12px;">Unlock box</ion-label>
+          </ion-text>
+
+          <!-- <ion-button [disabled]="btnUnlock" (click)="boxSteps('plugged')" shape="outline" expand="block">UNLOCK
+            </ion-button>  -->
+
+          <ion-button *ngIf="!btnUnlockLoader" [disabled]="btnUnlock" (click)="boxSteps('unlock')" shape="outline"
+            expand="block">UNLOCK
+          </ion-button>
+
+          <ion-button *ngIf="btnUnlockLoader" [disabled]="btnUnlock" shape="outline" expand="block">
+            <ion-spinner style="text-align: center; display: block; margin: 0 auto;" name="bubbles"></ion-spinner>
+          </ion-button>
+
+        </ion-col>
+
+        <ion-col size="6" size-sm="6" size-md="3" size-lg="3" size-xl="2" class="ion-text-center">
+          <div class="avatar-circle">
+            <ion-icon class="initials" [color]="!btnPlugged ? 'primary' : 'light'" name="git-branch-outline"></ion-icon>
+          </div>
+          <ion-text color="primary" style="display: grid" [ngClass]="btnPlugged ? 'text-icon-muted' : '' ">
+            <ion-label style="font-size: 12px;padding-top: 10px;">Step 2</ion-label>
+            <ion-label style="font-size: 12px;">UnPlug Cable</ion-label>
+
+          </ion-text>
+          <ion-button [disabled]="btnPlugged" (click)="boxSteps('plugged')" shape="outline" expand="block">DONE
+          </ion-button>
+        </ion-col>
+
+      </ion-row>
+
+
+
+      <!-- <ion-row class="ion-justify-center">
+        <ion-col size="12">
+          <ion-button  (click)="unLockDevice()" class="submit-btn" expand="block" color="primary"
+            type="submit" fill="solid">UNLOCK</ion-button>
+        </ion-col>
+      </ion-row> -->
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

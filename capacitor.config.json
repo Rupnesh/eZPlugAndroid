@@ -1,0 +1,12 @@
+{
+  "appId": "io.ev.eZCharge",
+  "appName": "eZPlug",
+  "bundledWebRuntime": true,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false
+    }
+  }
+}

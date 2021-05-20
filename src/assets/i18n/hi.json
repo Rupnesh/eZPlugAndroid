@@ -1,0 +1,22 @@
+{
+  "OK": "ओके",
+  "CANCEL": "कैंसिल",
+  "SAVE": "सेव",
+  "ADD": "ऐड",
+  "SELECT_LANGUAGE": "भाषा बदले",
+  "FIRST_NAME": "नाम",
+  "LAST_NAME": "कुल नाम",
+  "EMAIL": "ईमेल",
+  "PHONE": "फ़ोन",
+  "COMPANY": "कंपनी",
+  "VEHICLE_NAME": "वाहन नाम",
+  "VEHICLE_TYPE": "वाहन प्रकार",
+  "CHARGER_TYPE": "चार्जर प्रकार",
+  "EDIT": "एडिट करें",
+  "UPDATE": "अपडेट करें",
+  "DETAILS": "डिटेल्स",
+  "VEHICLES": "वाहन",
+  "ADD_DONE": "रिकॉर्ड ऐड किया गया !!!",
+  "UPDATE_DONE": "रिकॉर्ड अपडेट किया गया !!!",
+  "NO_DATA_FOUND": "कोई डेटा नहीं मिला"
+}

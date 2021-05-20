@@ -1,0 +1,408 @@
+<ion-header no-border>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button><ion-icon name="grid-outline"></ion-icon></ion-menu-button>
+      <!-- <ion-back-button defaultHref="app/dashboard"></ion-back-button> -->
+    </ion-buttons>
+    <ion-title>
+      My Profile
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="user-profile-content">
+  
+  <ion-row class="user-details-section"> 
+    <ion-col size="3" size-sm="2" size-md="2" size-lg="2" size-xl="1">
+      <ion-icon color="primary" style="height: 72px; width: 72px;" name="person-circle-outline"></ion-icon>
+    </ion-col>
+    <ion-col size="9" class="user-info-wrapper">
+      <div style="margin-top: auto; margin-bottom: auto; display: grid; grid-template-columns: 80% auto;">
+        <ion-text color="primary" style="margin-top: auto; margin-bottom: auto;font-size: 20px; font-weight: 500;">{{userDetails?.firstName ? userDetails?.firstName : userContact?.user.userName}}</ion-text>
+        <!-- <ion-button style="width: 46px;" class="more-btn" size="small" fill="clear" color="primary" (click)="openLanguageChooser()">
+          <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+        </ion-button> -->
+      </div>
+    </ion-col>
+    <!-- <ion-col class="user-info-wrapper">
+      <ion-row class="user-data-row">
+        <ion-col size="9">
+          <h3 class="user-name">
+            <ion-text color="primary">{{userDetails?.firstName ? userDetails?.firstName : userContact?.user.userName}}</ion-text>
+          </h3>
+        </ion-col>
+
+        <ion-col class="secondary-actions" style="text-align: right;">
+          <ion-button class="more-btn" size="small" fill="clear" color="primary" (click)="openLanguageChooser()">
+            <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+
+      </ion-row>
+      <ion-row class="actions-row">
+        <ion-col class="main-actions">
+          <ion-button class="call-to-action-btn" size="small" color="primary">WALLET ₹ {{walletBalance.walletBalance}}</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-col> -->
+  </ion-row>
+
+
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="12" size-sm="12" size-md="12" size-lg="10" size-xl="10">
+
+
+      <ion-item-group>
+        <ion-item-divider sticky style="padding-left: 0;">
+
+          <ion-segment [(ngModel)]="profileSeg" color="primary">
+            <ion-segment-button value="details">
+              {{ 'DETAILS' | translate }}
+            </ion-segment-button>
+            <ion-segment-button value="vehicles">
+              {{ 'VEHICLES' | translate }}
+            </ion-segment-button>
+          </ion-segment>
+
+        </ion-item-divider>
+
+        <div [ngSwitch]="profileSeg">
+          <ion-list *ngSwitchCase="'details'" class="ion-padding">
+            <div *ngIf="!isEdit">
+              <div *ngIf="!loadUserProfileLoader">
+                <ion-row>
+                  <ion-col size="5"><strong><ion-text color="primary">{{ 'FIRST_NAME' | translate }}</ion-text></strong></ion-col>
+                  <ion-col size="7" *ngIf="!isEdit">
+                    <ion-text color="primary">{{userDetails?.firstName}}</ion-text>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="5"><strong><ion-text color="primary">{{ 'LAST_NAME' | translate }}</ion-text></strong></ion-col>
+                  <ion-col size="7" *ngIf="!isEdit">
+                    <ion-text color="primary">{{userDetails?.lastName}}</ion-text>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="5"><strong><ion-text color="primary">{{ 'EMAIL' | translate }}</ion-text></strong></ion-col>
+                  <ion-col size="7" *ngIf="!isEdit">
+                    <ion-text color="primary" style="white-space:nowrap">{{userDetails?.email}}</ion-text>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="5"><strong><ion-text color="primary">{{ 'PHONE' | translate }}</ion-text></strong></ion-col>
+                  <ion-col size="7" *ngIf="!isEdit">
+                    <ion-text color="primary">{{userDetails?.phone}}</ion-text>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="5"><strong><ion-text color="primary">{{ 'COMPANY' | translate }}</ion-text></strong></ion-col>
+                  <ion-col size="7" *ngIf="!isEdit">
+                    <ion-text color="primary">{{userDetails?.companyName}}</ion-text>
+                  </ion-col>
+                </ion-row>
+              </div>
+
+              <ion-item style="width: 100%;" *ngIf="loadUserProfileLoader" class="inner-contents item-40px " lines="none">
+                <ion-spinner color="primary" style="text-align: center; display: block; margin: 0 auto;" name="bubbles">
+                </ion-spinner>
+              </ion-item>
+
+            </div>
+
+            <div *ngIf="isEdit">
+
+
+              <form [formGroup]="userUpdateForm">
+
+                <div>
+                  <!-- <ion-item>
+                    <ion-label position="fixed" color="primary"><strong>First Name</strong></ion-label>
+                    <ion-input type="text" formControlName="firstName" class="form-controll" required></ion-input>
+                  </ion-item> -->
+                  <span class="editField" style="margin: 16px 0 8px 0px !important;">
+                    <ion-label position="fixed" style="min-width: 150px;"><strong><ion-text color="primary">{{ 'FIRST_NAME' | translate }}</ion-text></strong></ion-label>
+                    <ion-input type="text" formControlName="firstName" class="form-controll" required></ion-input>
+                  </span>
+                  <div class="validation-errors">
+                    <ng-container *ngFor="let validation of validation_messages.firstName">
+                      <div class="error-message" style="color: red; font-size: x-small;"
+                        *ngIf="userUpdateForm.get('firstName').hasError(validation.type) && (userUpdateForm.get('firstName').dirty || userUpdateForm.get('firstName').touched)">
+                        {{ validation.message }}
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+                <div>
+                  <span class="editField" style="margin: 16px 0 8px 0px !important;">
+                    <ion-label position="fixed" style="min-width: 150px;"><strong><ion-text color="primary">{{ 'LAST_NAME' | translate }}</ion-text></strong></ion-label>
+                    <ion-input type="text" formControlName="lastName" class="form-controll" required></ion-input>
+                  </span>
+                  <div class="validation-errors">
+                    <ng-container *ngFor="let validation of validation_messages.lastName">
+                      <div class="error-message" style="color: red; font-size: x-small;"
+                        *ngIf="userUpdateForm.get('lastName').hasError(validation.type) && (userUpdateForm.get('lastName').dirty || userUpdateForm.get('lastName').touched)">
+                        {{ validation.message }}
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+                <div>
+                  <span class="editField" style="margin: 16px 0 8px 0px !important;">
+                    <ion-label position="fixed" style="min-width: 150px;"><strong><ion-text color="primary">{{ 'EMAIL' | translate }}</ion-text></strong></ion-label>
+                    <ion-input type="text" formControlName="email" class="form-controll" required></ion-input>
+                  </span>
+                  <div class="validation-errors">
+                    <ng-container *ngFor="let validation of validation_messages.email">
+                      <div class="error-message" style="color: red; font-size: x-small;"
+                        *ngIf="userUpdateForm.get('email').hasError(validation.type) && (userUpdateForm.get('email').dirty || userUpdateForm.get('email').touched)">
+                        {{ validation.message }}
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+                <div>
+                  <span class="editField" style="margin: 16px 0 8px 0px !important;">
+                    <ion-label position="fixed" style="min-width: 150px;"><strong><ion-text color="primary">{{ 'PHONE' | translate }}</ion-text></strong></ion-label>
+                    <ion-input type="text" formControlName="phone" class="form-controll" required></ion-input>
+                  </span>
+                  <div class="validation-errors">
+                    <ng-container *ngFor="let validation of validation_messages.phone">
+                      <div class="error-message" style="color: red; font-size: x-small;"
+                        *ngIf="userUpdateForm.get('phone').hasError(validation.type) && (userUpdateForm.get('phone').dirty || userUpdateForm.get('phone').touched)">
+                        {{ validation.message }}
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+                <div>
+                  <span class="editField" style="margin: 16px 0 8px 0px !important;">
+                    <ion-label position="fixed" style="min-width: 150px;"><strong><ion-text color="primary">{{ 'COMPANY' | translate }}</ion-text></strong></ion-label>
+                    <ion-input type="text" formControlName="companyName" class="form-controll" required></ion-input>
+                  </span>
+                  <div class="validation-errors">
+                    <ng-container *ngFor="let validation of validation_messages.companyName">
+                      <div class="error-message" style="color: red; font-size: x-small;"
+                        *ngIf="userUpdateForm.get('companyName').hasError(validation.type) && (userUpdateForm.get('companyName').dirty || userUpdateForm.get('companyName').touched)">
+                        {{ validation.message }}
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+
+
+            <ion-row>
+              <ion-col size="12">
+                <ion-button *ngIf="!isEdit" (click)="editProfile()" shape="outline" expand="block">{{ 'EDIT' | translate }}</ion-button>
+                <!-- <ion-button *ngIf="!isEdit" (click)="isEdit = !isEdit" (click)="editProfile()" shape="outline" expand="block">EDIT</ion-button> -->
+                <ion-button *ngIf="isEdit" [disabled]="!userUpdateForm.valid" (click)="updateProfile()" shape="outline"
+                  expand="block">
+                  <ion-spinner *ngIf="updateUserProfileLoader" color="primary" name="bubbles">
+                  </ion-spinner>
+                  {{ 'UPDATE' | translate }}</ion-button>
+              </ion-col>
+            </ion-row>
+
+          </ion-list>
+
+          <ion-list *ngSwitchCase="'vehicles'" style="padding: 0;">
+
+
+
+            <ion-item lines="none" *ngIf="!this.addvehicle">
+              <ion-button slot="end" fill="clear" (click)="this.addvehicle = ! this.addvehicle;">
+                <ion-icon name="add"></ion-icon>ADD VEHICLE
+              </ion-button>
+            </ion-item>
+
+
+            <ion-card *ngIf="addvehicle">
+              <ion-grid>
+                <ion-row>
+                  <ion-col>
+                    <ion-button fill="clear" size="small">
+                      {{ 'ADD' | translate }}
+                    </ion-button>
+                  </ion-col>
+                  <ion-col>
+                    <ion-button fill="solid" color="primary" size="small" (click)="this.addvehicle = ! this.addvehicle;">
+                      {{ 'CANCEL' | translate }}
+                    </ion-button>
+                  </ion-col>
+                  <ion-col text-right>
+                    <!-- <ion-button fill="solid" color="primary" size="small" (click)="CreateRecord()">
+                      Save
+                    </ion-button> -->
+
+                    <ion-button *ngIf="!addVehicleLoader" (click)="CreateRecord()" fill="solid" color="primary"
+                      size="small">{{ 'SAVE' | translate }}
+                    </ion-button>
+
+                    <ion-button *ngIf="addVehicleLoader" fill="solid" color="primary" size="small">
+                      <ion-spinner style="text-align: center; display: block; margin: 0 auto;" name="bubbles">
+                      </ion-spinner>
+                    </ion-button>
+
+                  </ion-col>
+                </ion-row>
+
+              </ion-grid>
+
+              <!-- <span class="editField">
+                <ion-label position="fixed" style="min-width: 150px;"><strong>Vehicle Number</strong></ion-label>
+                <ion-input [(ngModel)]="vehicleAdd.vehicleNumber" type="text" placeholder="Enter Vehicle Number"></ion-input>
+              </span> -->
+              <span class="editField">
+                <ion-label position="fixed" style="min-width: 150px;"><strong><ion-text color="primary">{{ 'VEHICLE_TYPE' | translate }}</ion-text></strong></ion-label>
+                <ion-select [(ngModel)]="vehicleAdd.vehicleType" placeholder="Select Vehicle Type"
+                  style="--padding-start:0; --padding-top: 5px; --padding-bottom:0; width: 50%;">
+                  <ion-select-option class="option-color">2 Wheeler</ion-select-option>
+                  <ion-select-option class="option-color">3 Wheeler</ion-select-option>
+                  <ion-select-option class="option-color">4 Wheeler</ion-select-option>
+                </ion-select>
+              </span>
+
+              <span class="editField">
+                <ion-label position="fixed" style="min-width: 150px;"><strong><ion-text color="primary">{{ 'VEHICLE_NAME' | translate }}</ion-text></strong></ion-label>
+                <ion-input [(ngModel)]="vehicleAdd.vehicleName" type="text" placeholder="Enter Name"></ion-input>
+              </span>
+              <span class="editField">
+                <ion-label position="fixed" style="min-width: 150px;"><strong><ion-text color="primary">{{ 'COMPANY' | translate }}</ion-text></strong></ion-label>
+                <ion-input [(ngModel)]="vehicleAdd.vehicleCompany" type="text" placeholder="Enter Comapny"></ion-input>
+              </span>
+              <span class="editField"> 
+                <ion-label position="fixed" style="min-width: 150px;"><strong><ion-text color="primary">{{ 'CHARGER_TYPE' | translate }}</ion-text></strong></ion-label>
+                <ion-select class="option-color" [(ngModel)]="vehicleAdd.chargerType" placeholder="Select Charger Type"
+                  style="--padding-start:0; --padding-top: 5px; --padding-bottom:0; width: 50%;">
+                  <ion-select-option class="option-color">C1</ion-select-option>
+                  <ion-select-option class="option-color">C2</ion-select-option>
+                </ion-select>
+              </span>
+
+            </ion-card>
+
+            <div *ngIf="!addvehicle">
+              <div *ngIf="vehicleList.length > 0">
+                <ion-card @slideleft *ngFor="let item of vehicleList; let i=index"
+                  style="border-right: 5px solid #216581; ">
+                  <ion-item-sliding color="primary">
+                    <span *ngIf="!item.isEdit; else elseBlock">
+                      <ion-item>
+
+                        <ion-label slot="start">
+                          <h2 style="font-weight: 450;"><ion-text color="primary">{{item.vehicleName}}</ion-text></h2>
+                          <p><ion-text color="primary">{{item.vehicleType}} Type: {{item.chargerType}}</ion-text></p>
+                        </ion-label>
+                        <ion-label slot="end" style="min-height: 48px; margin-left: 0; text-align: right;">
+                          <p><ion-text color="primary">{{item.vehicleCompany}}</ion-text></p>
+                        </ion-label>
+
+                      </ion-item>
+
+                      <ion-item-options side="end">
+                        <ion-item-option color="danger" (click)="RemoveRecord(item)">
+                          <ion-icon size="small" slot="icon-only" name="trash"></ion-icon>
+                        </ion-item-option>
+                        <ion-item-option (click)="EditRecord(item, i)">
+                          <ion-icon size="small" slot="icon-only" name="create"></ion-icon>
+                        </ion-item-option>
+
+                      </ion-item-options>
+                    </span>
+
+
+                    <ng-template #elseBlock>
+                      <span @slideleft>
+                        <ion-grid>
+                          <ion-row>
+                            <ion-col>
+                              <ion-button fill="clear" size="small">
+                                {{ 'EDIT' | translate }}
+                              </ion-button>
+                            </ion-col>
+                            <ion-col>
+                              <ion-button fill="solid" color="primary" size="small" (click)="cancelUpdate(item)">
+                                {{ 'CANCEL' | translate }}
+                              </ion-button>
+                            </ion-col>
+                            <ion-col text-right>
+                              <!-- <ion-button fill="solid" color="primary" size="small" (click)="UpdateRecord(item)">
+                                Update
+                              </ion-button> -->
+
+                              <ion-button *ngIf="!updateVehicleLoader" (click)="UpdateRecord(item)" fill="solid"
+                                color="primary" size="small">{{ 'UPDATE' | translate }}
+                              </ion-button>
+
+                              <ion-button *ngIf="updateVehicleLoader" fill="solid" color="primary" size="small">
+                                <ion-spinner style="text-align: center; display: block; margin: 0 auto;" name="bubbles">
+                                </ion-spinner>
+                              </ion-button>
+
+                            </ion-col>
+                          </ion-row>
+
+                        </ion-grid>
+
+
+                      </span>
+                      <span class="editField">
+                        <ion-label position="fixed" style="min-width: 150px;"><strong><ion-text color="primary">{{ 'VEHICLE_TYPE' | translate }}</ion-text></strong></ion-label>
+                        <ion-select placeholder="Select Charger Type"
+                          style="--padding-start:0; --padding-top: 5px; --padding-bottom:0; width: 50%;"
+                          [(ngModel)]="item.vehicleType">
+                          <ion-select-option class="option-color">2 Wheeler</ion-select-option>
+                          <ion-select-option class="option-color">3 Wheeler</ion-select-option>
+                          <ion-select-option class="option-color">4 Wheeler</ion-select-option>
+                        </ion-select>
+                      </span>
+                      <span class="editField">
+                        <ion-label position="fixed" style="min-width: 150px;"><strong><ion-text color="primary">{{ 'VEHICLE_NAME' | translate }}</ion-text></strong></ion-label>
+                        <ion-input type="text" [(ngModel)]="item.vehicleName"></ion-input>
+                      </span>
+                      <span class="editField">
+                        <ion-label position="fixed" style="min-width: 150px;"><strong><ion-text color="primary">{{ 'COMPANY' | translate }}</ion-text></strong></ion-label>
+                        <ion-input type="text" [(ngModel)]="item.vehicleCompany"></ion-input>
+                      </span>
+                      <span class="editField">
+                        <ion-label position="fixed" style="min-width: 150px;"><strong><ion-text color="primary">{{ 'CHARGER_TYPE' | translate }}</ion-text></strong></ion-label>
+                        <ion-select placeholder="Select Charger Type"
+                          style="--padding-start:0; --padding-top: 5px; --padding-bottom:0; width: 50%;"
+                          [(ngModel)]="item.chargerType">
+                          <ion-select-option class="option-color">C1</ion-select-option>
+                          <ion-select-option class="option-color">C2</ion-select-option>
+                        </ion-select>
+                      </span>
+                    </ng-template>
+                  </ion-item-sliding>
+
+                </ion-card>
+              </div>
+
+              <ion-item style="width: 100%;" *ngIf="!vehicleList.length && vehicleNoDataFound == false"
+                class="inner-contents item-40px " lines="none">
+                <ion-spinner color="primary" style="text-align: center; display: block; margin: 0 auto;" name="bubbles">
+                </ion-spinner>
+              </ion-item>
+
+
+              <ion-text color="primary" style="width: 100%;margin-left: 12px;font-size: 14px;"
+                *ngIf="vehicleNoDataFound == true">{{ 'NO_DATA_FOUND' | translate }} </ion-text>
+
+            </div>
+
+
+
+
+          </ion-list>
+
+        </div>
+      </ion-item-group>
+
+    </ion-col>
+  </ion-row>
+
+
+</ion-content>

@@ -1,0 +1,8 @@
+{
+  "name": "eZCharge",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}
