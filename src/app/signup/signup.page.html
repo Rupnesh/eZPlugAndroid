@@ -21,12 +21,28 @@
           <ion-button fill="clear" (click)="resendOTP()">Resend OTP</ion-button>
         </ion-col> -->
       </ion-row>
-
+      <!-- <form #otpForm="ngForm"> -->
       <ion-row text-center class="ion-justify-content-center">
 
         <ion-col size="12" style="display: flex; margin: 0 auto;">
+
           
-          <ion-input maxlength="1" pattern="[0-9]*" (paste)="onOTPPaste($event)" [(ngModel)]="otpText1" type="number" #otp1 required
+          
+            <ion-input (paste)="onOTPPaste($event)" [(ngModel)]="otpText1" type="tel" #otp1 
+              (keyup)="otpController($event,otp2,'', 0)" inputmode="numeric" required maxlength="1" >
+            </ion-input>
+            <ion-input [(ngModel)]="otpText2" type="tel" #otp2
+              (keyup)="otpController($event,otp3,otp1, 1)" inputmode="numeric" required maxlength=1>
+            </ion-input>
+            <ion-input [(ngModel)]="otpText3" type="tel" #otp3
+              (keyup)="otpController($event,otp4,otp2, 2)" inputmode="numeric" required maxlength=1>
+            </ion-input>
+            <ion-input [(ngModel)]="otpText4" type="tel" #otp4
+              (keyup)="otpController($event,'',otp3, 3)" inputmode="numeric" required maxlength=1>
+            </ion-input>
+          
+
+          <!-- <ion-input maxlength="1" pattern="[0-9]*" (paste)="onOTPPaste($event)" [(ngModel)]="otpText1" type="number" #otp1 required
             (keyup)="otpController($event,otp2,'', 0)" inputmode="numeric">
           </ion-input>
           <ion-input maxlength="1" pattern="[0-9]*" [(ngModel)]="otpText2" type="number" #otp2 required
@@ -35,26 +51,18 @@
           <ion-input maxlength="1" pattern="[0-9]*" [(ngModel)]="otpText3" type="number" #otp3 required
             (keyup)="otpController($event,otp4,otp2, 2)" inputmode="numeric">
           </ion-input>
-
           <ion-input maxlength="1" pattern="[0-9]*" [(ngModel)]="otpText4" type="number" #otp4 required
             (keyup)="otpController($event,'',otp3, 3)" inputmode="numeric">
-          </ion-input>
-
-          <!-- <ion-input [(ngModel)]="otpText4" type="number" #otp4 required maxLength="1"
-            (ionChange)="otpController($event,otp5,otp3)">
           </ion-input> -->
 
-          <!-- <ion-input [(ngModel)]="otpText5" type="number" #otp5 required maxLength="1"
-            (ionChange)="otpController($event,otp6,otp4)">
-          </ion-input>
-          <ion-input [(ngModel)]="otpText6" type="number" #otp6 required maxLength="1"
-            (ionChange)="otpController($event,'',otp5)">
-          </ion-input> -->
 
 
         </ion-col>
 
       </ion-row>
+
+    <!-- </form> -->
+
       <ion-row class="ion-justify-content-center" *ngIf="otpRetrive && !submitFlag">
         <ion-col size="10" class="ion-text-right" >
           <ion-text style="line-height: 4.5;" class="text-muted">Retrieving OTP in 0:{{secondsRemaing}}</ion-text>

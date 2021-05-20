@@ -7,6 +7,7 @@ import { StorageService } from '../services/storage.service'
 import { AuthService } from '../services/auth.service'
 import { LoaderService } from '../services/loading.service'
 import { AlertService } from '../services/alert.service'
+import { NgForm } from '@angular/forms';
 declare var SMSReceive: any;
 
 @Component({
@@ -35,6 +36,7 @@ export class SignupPage implements OnInit {
   otpText6: any = "";
 
   sessionId: any = "";
+  @ViewChild('f',{static: false}) otpForm: NgForm;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -121,10 +123,10 @@ export class SignupPage implements OnInit {
     }
     else {
       console.log("index...",index)
-      if(index === 0) this.otpText1 = event.target.value.slice(0, 1);
-      if(index === 1) this.otpText2 = event.target.value.slice(0, 1);
-      if(index === 2) this.otpText3 = event.target.value.slice(0, 1);
-      if(index === 3) this.otpText4 = event.target.value.slice(0, 1);
+      // if(index === 0) this.otpText1 = event.target.value.slice(0, 1);
+      // if(index === 1) this.otpText2 = event.target.value.slice(0, 1);
+      // if(index === 2) this.otpText3 = event.target.value.slice(0, 1);
+      // if(index === 3) this.otpText4 = event.target.value.slice(0, 1);
 
       if (event.target.value.length < 1 && prev) {
         prev.setFocus()
@@ -147,15 +149,6 @@ export class SignupPage implements OnInit {
       this.otpText3 = this.otp.charAt(2)
       this.otpText4 = this.otp.charAt(3)
     }, 10)
-  }
-
-  public onKeyUp(event, index) {
-    console.log("calleddsd...",index)
-    console.log(index)
-    if(index === 0) this.otpText1 = event.target.value.slice(0, 1);
-    if(index === 1) this.otpText2 = event.target.value.slice(0, 1);
-    if(index === 2) this.otpText3 = event.target.value.slice(0, 1);
-    if(index === 3) this.otpText4 = event.target.value.slice(0, 1);
   }
   
 
