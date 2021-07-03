@@ -1,0 +1,7 @@
+{
+  "name": "eZPlugApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
