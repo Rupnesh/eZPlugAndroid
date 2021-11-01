@@ -1,0 +1,205 @@
+<ion-header>
+  <ion-toolbar color="primary" >
+    <ion-buttons slot="start">
+      <ion-menu-button>
+        <ion-icon name="grid-outline"></ion-icon>
+      </ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Dashboard
+    </ion-title>
+    <ion-buttons slot="primary" >
+      <ion-button fill="clear" *ngIf="isOn" (click)="isOn = !isOn">
+        <ion-icon slot="end" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #scrollArea scrollEvents="true" >
+
+  
+  <div *ngIf="isOn" class="scan-box">
+  </div>
+
+  <ion-item-group >
+    <ion-item-divider sticky style="padding-left: 0;background-color: #fff; border-bottom: none;background: #216581;
+    border-bottom-left-radius: 72px;">
+    
+      <ion-row style="width: 100%; ">
+        <ion-col size="12"> 
+          <ion-searchbar class="items-searchbar" (ionFocus)="searchFn($event);" (ionClear)="onClear($event)" mode="ios"
+            placeholder="Search by Name or ID"></ion-searchbar>
+
+
+          <ion-row style="width: 100%;" class="ion-justify-content-center" id="toolsBlock">
+            <ion-col size="3" style="text-align: center;">
+              
+              <!-- <ion-icon (click)="startScanner()" color="medium" name="scan-outline" size="large"> -->
+              <ion-icon (click)="scanCode()" color="medium" name="scan-outline" size="large">
+              </ion-icon>
+              <ion-label style="font-size: 12px; " color="medium">Scan</ion-label>
+            </ion-col>
+            <ion-col size="3" style="text-align: center;">
+
+              <ion-icon (click)="serachNearBy()" color="medium" name="map-outline" size="large">
+              </ion-icon>
+              <ion-label style="font-size: 12px;" color="medium">Near by</ion-label>
+            </ion-col>
+
+            
+
+          </ion-row>
+
+        </ion-col>
+      </ion-row>
+    </ion-item-divider>
+
+    <!-- <div *ngIf="info.platform === 'web'">
+      <div *ngIf="scanFlag">
+        <zxing-scanner #scanner start="true" [device]="currentDevice" (scanSuccess)="handleQrCodeResult($event)" [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']"></zxing-scanner>
+      </div>
+    </div> -->
+
+    
+    <ion-refresher color="medium" slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div *ngIf="networkStatus?.connected">
+      <ion-grid style="margin: 0 0 10px 0;">
+
+        <div style="padding: 10px;">
+          <ion-text color="primary">
+            <h4>Favourites</h4>
+          </ion-text>
+        </div>
+        <ion-row class="horizon" nowrap *ngIf="favourites.length > 0">
+          <ion-col *ngFor="let item of favourites; let i = index" size="2.7" style="text-align: center;" (click)="showStationListPrompt(item)">
+
+            <div class="avatar-circle" id="avatar-circle{{i}}" [style.background-color]="getBackgroundColor(i)">
+              <span class="initials">{{item.siteName.charAt(0)}}</span>
+            </div>
+            <ion-text color="primary"> 
+              <ion-label style="font-size: 14px;padding-top: 10px;">{{item.siteName}}</ion-label>
+              <!-- <ion-label style="font-size: 14px;padding-top: 10px; color: #737373;">{{item.siteName}}</ion-label> -->
+            </ion-text>
+          </ion-col>
+        </ion-row>
+
+        <ion-item style="width: 100%;" *ngIf="!favourites.length && favouriteNoDataFound == false" class="inner-contents item-40px " lines="none">
+          <ion-spinner color="primary" style="text-align: center; display: block; margin: 0 auto;" name="bubbles">
+          </ion-spinner>
+        </ion-item>
+
+        
+        <ion-text style="width: 100%;margin-left: 12px;font-size: 14px;color: var(--ion-color-primary-tint);" *ngIf="favourites.length == 0 && favouriteNoDataFound == true">No data found</ion-text>
+        
+
+      </ion-grid>
+
+
+      <ion-list>
+        <ion-list-header>
+          <ion-text color="primary">
+            <h4>History</h4>
+          </ion-text>
+        </ion-list-header>
+
+        <div *ngIf="history.length > 0">
+
+          <ion-card *ngFor="let item of history; let i=index;" class="glass-card">
+
+            <ion-card-content>
+
+              <ion-row style="margin-bottom: 5px;" (click)="toggleGroup(item, i)">
+
+                <ion-col style="padding: 0 !important;" size="9">
+                  <strong>
+                    <ion-text color="primary">{{item?.siteName}}</ion-text>
+                  </strong>
+                </ion-col>
+                <ion-col style="padding: 0 !important; text-align: right;" size="3">
+                  <span>
+                    <ion-icon style="height: 20px;width: 20px;" color="primary"
+                      name="{{item.show ? 'chevron-down-circle' : 'chevron-forward-circle'}}">
+                      <!-- name="{{item.show ? 'ios-arrow-dropdown-circle' : 'ios-arrow-dropright-circle'}}"> -->
+                    </ion-icon>
+                  </span>
+                </ion-col>
+              </ion-row>
+
+              <ion-row (click)="toggleGroup(item, i)">
+                <ion-col style="padding: 0 !important;" size="9">
+
+                  <ion-text color="primary">{{item?.address}}</ion-text>
+                </ion-col>
+                <ion-col style="padding: 0 !important; text-align: right;" size="3">
+                  <ion-text color="primary">{{item?.distance.toFixed(0)}} km</ion-text>
+                </ion-col>
+              </ion-row>
+
+
+              <ion-row *ngIf="isGroupShown(item)">
+                <ion-item (click)="stationDetails(station)" class="inner-contents item-40px glass-card-inner" lines="none"
+                  *ngFor="let station of stationList" style="padding-left: 16px; margin-top: 16px; width: 100%;"   >
+                  <div style="width: 100%; display: flex; justify-content: space-between;">
+                    <span style="display: flex;align-items: center;">
+
+                      <div [ngClass]="[ station.isAvailable && station.isConnectedToIoTHub ? 'greenGradient' : '', 
+                        !station.isAvailable && !station.isConnectedToIoTHub ? 'grayGradient' : '',
+                        !station.isAvailable && station.isConnectedToIoTHub ? 'redGradient' : '',
+                        station.isAvailable && !station.isConnectedToIoTHub ? 'grayGradient' : '']"
+                        style="height: 20px;width: 20px; margin-right: 10px; border-radius:50%"></div>
+
+                      <!-- <div [ngClass]="station.isAvailable && station.isConnectedToIoTHub ? 'greenGradient' : 'redGradient'"
+                        style="height: 20px;width: 20px; margin-right: 10px; border-radius:50%"></div> -->
+
+                      <ion-text color="primary" style="font-size: 15px;">{{station?.stationName}}</ion-text>
+                    </span>
+                  </div>
+                </ion-item>
+
+
+                <ion-item style="width: 100%;" *ngIf="!stationListError" class="inner-contents item-40px "
+                  lines="none">
+                  <ion-spinner color="primary" style="text-align: center; display: block; margin: 0 auto;"
+                    name="bubbles"></ion-spinner>
+                </ion-item>
+
+
+              </ion-row>
+
+            </ion-card-content>
+          </ion-card>
+
+        </div>
+
+        <ion-item style="width: 100%;" *ngIf="!history.length && historyNoDataFound === false" class="inner-contents item-40px " lines="none">
+          <ion-spinner color="primary" style="text-align: center; display: block; margin: 0 auto;" name="bubbles">
+          </ion-spinner>
+        </ion-item>
+        <ion-text style="width: 100%;margin-left: 20px;font-size: 14px;color: var(--ion-color-primary-tint);" *ngIf="history.length == 0 && historyNoDataFound === true">No data found</ion-text>
+
+
+      </ion-list>
+
+    </div>
+    <div *ngIf="!networkStatus?.connected" style="text-align: center;">
+      <ion-row>
+        <ion-col size="12">
+          <ion-icon color="light" style="font-size: 72px;" name="cloud-offline-outline"></ion-icon>
+        </ion-col>
+        <ion-col size="12">
+          <ion-label color="light">You are offline!!!</ion-label>
+          <ion-label color="light">Pull down to refresh</ion-label>
+        </ion-col>
+      </ion-row>
+    </div>
+  
+
+  </ion-item-group>
+
+    
+</ion-content>
+

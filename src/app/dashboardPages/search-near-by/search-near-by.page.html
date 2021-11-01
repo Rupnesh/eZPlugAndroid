@@ -1,0 +1,132 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button routerLink="/app/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Search Near By</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div>
+
+    <!-- <ion-button defaultHref="app/home" style="position: absolute; top: 0; left: 0; color: #2D660A;z-index: 999999999;" fill="clear" (click)="closeModal()">
+      <ion-icon style="height: 24px; width: 24px;" name="arrow-back"></ion-icon>
+    </ion-button> -->
+
+
+    <ion-fab vertical="top" horizontal="end" slot="fixed">
+      <ion-fab-button style="height: 42px; width: 42px;" (click)="geolocateMe()" color="primary">
+        <ion-icon name="locate"></ion-icon>
+      </ion-fab-button> 
+    </ion-fab>
+    <google-map [mapOptions]="mapOptions"></google-map>
+  </div>
+
+  <!-- <ion-item-divider sticky style="padding-left: 0;height: 30%;">
+    <google-map sticky [mapOptions]="mapOptions"></google-map>
+  </ion-item-divider> -->
+
+  <div>
+
+
+
+    <ion-item-divider sticky style="padding-left: 0;height: 30%;">
+      <ion-row class="range-item" style="width: 100%;">
+        <ion-col size="12">
+          <div class="range-header">
+            <span class="range-label">
+              <ion-text color="primary">Range (km)</ion-text>
+            </span>
+            <span class="range-value">
+              <ion-text color="primary">{{ valueSliderRange }}</ion-text>
+            </span>
+
+          </div>
+        </ion-col>
+        <ion-col size="12">
+          <ion-range class="range-control" [(ngModel)]="valueSliderRange" pin="true" color="primary"
+            (mouseup)="onProgressChangeEnd($event)" (touchend)="onProgressChangeEnd($event)" min="1" max="50" step="1"></ion-range>
+        </ion-col>
+      </ion-row>
+    </ion-item-divider>
+
+    <!-- <div *ngIf="siteList?.length > 0"> -->
+      <ion-card *ngFor="let item of siteList; let i=index;" class="glass-card">
+
+
+        <ion-card-content>
+
+          <ion-row style="margin-bottom: 5px;" (click)="showDeatils(item, i)">
+            <ion-col style="padding: 0 !important;" size="9">
+              <strong>
+                <ion-text color="primary">{{item?.siteName}}</ion-text>
+              </strong>
+            </ion-col>
+            <ion-col style="padding: 0 !important; text-align: right;" size="3">
+              <span>
+                <ion-icon style="height: 20px;width: 20px;" color="primary"
+                  name="{{item.show ? 'chevron-down-circle' : 'chevron-forward-circle'}}"></ion-icon>
+
+              </span>
+            </ion-col>
+          </ion-row>
+
+          <ion-row (click)="showDeatils(item, i)">
+            <ion-col style="padding: 0 !important;" size="9">
+
+              <ion-text color="primary">{{item?.address}}</ion-text>
+            </ion-col>
+            <ion-col style="padding: 0 !important; text-align: right;" size="3">
+              <ion-text color="primary">{{item?.distance.toFixed(0)}} km</ion-text>
+            </ion-col>
+          </ion-row>
+
+
+          <ion-row *ngIf="isGroupShown(item)" color="medium">
+            <ion-item (click)="stationDetails(station)" class="inner-contents item-40px glass-card-inner" lines="none"
+              *ngFor="let station of stationList" style="margin-top: 16px;width: 100%;" color="medium">
+              <div style="width: 100%; display: flex; justify-content: space-between;">
+                <span style="display: flex;align-items: center;">
+
+                  <div [ngClass]="[ station.isAvailable && station.isConnectedToIoTHub ? 'greenGradient' : '', 
+                        !station.isAvailable && !station.isConnectedToIoTHub ? 'grayGradient' : '',
+                        !station.isAvailable && station.isConnectedToIoTHub ? 'redGradient' : '',
+                        station.isAvailable && !station.isConnectedToIoTHub ? 'grayGradient' : '']"
+                        style="height: 20px;width: 20px; margin-right: 10px; border-radius:50%"></div>
+
+                  <!-- <div [ngClass]="station.isAvailable && station.isConnectedToIoTHub ? 'greenGradient' : 'redGradient'"
+                    style="height: 20px;width: 20px; margin-right: 10px; border-radius:50%"></div> -->
+
+
+                  <ion-text color="primary" style="font-size: 15px;">{{station?.stationName}}</ion-text>
+                </span>
+              </div>
+            </ion-item>
+
+
+            <ion-item style="width: 100%;" *ngIf="!stationListError" class="inner-contents item-40px " lines="none">
+              <ion-spinner color="primary" style="text-align: center; display: block; margin: 0 auto;" name="bubbles">
+              </ion-spinner>
+            </ion-item>
+
+          </ion-row>
+
+        </ion-card-content>
+      </ion-card>
+
+    <!-- </div> -->
+
+    <ion-item lines="none">
+      <ion-text style="width: 100%;margin-left: 20px;font-size: 14px;color: var(--ion-color-primary-tint);"
+        *ngIf="siteList.length == 0">No site found in radius of {{valueSliderRange}} km </ion-text>
+    </ion-item>
+  </div>
+
+
+  <!-- <h3 *ngIf="stations?.length == 0" class="empty-list-message">
+    No users found for the selected filters.
+  </h3> -->
+
+</ion-content>

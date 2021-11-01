@@ -1,0 +1,142 @@
+:host {
+  --page-page-color: var(--ion-color-page-content);
+}
+
+// .text-icon-muted {
+//   color: rgba(#000, 0.5) !important;
+// }
+
+
+.text-icon-muted {
+  color: rgba(#216581, 0.5) !important;
+}
+
+.text-muted {
+  color: rgba(#000, 0.5) !important;
+  font-size: 14px;
+}
+.text-muted-icon {
+    --color: rgba(#000, 0.5) !important;
+}
+
+.avatar-circle {
+  width: 36px;
+  height: 36px;
+  text-align: center;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  display: table;
+  margin: 0 auto;
+}
+
+.initials {
+  color: #ffffff;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+
+ion-content {
+  --ion-background-color: var(--page-page-color);
+}
+ion-card,
+ion-item-divider {
+  background-color: #fff !important;
+}
+
+.grid {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  margin: 40px auto;
+}
+.grid-item {
+  width: 100%;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  display: flex;
+}
+
+/*loading3*/
+#loading3 {
+  position: absolute;
+  width: 60px;
+  height: 30px;
+}
+#loading3 > div {
+  width: 6px;
+  height: 40px;
+  display: inline-block;
+  background-color: #4caf50;
+  -webkit-animation: strechdelay 1.2s ease-in-out infinite;
+  animation: strechdelay 1.2s ease-in-out infinite;
+}
+#loading3 .line2 {
+  -webkit-animation-delay: -1.1s;
+}
+#loading3 .line3 {
+  -webkit-animation-delay: -1s;
+}
+#loading3 .line4 {
+  -webkit-animation-delay: -0.9s;
+}
+
+@-webkit-keyframes strechdelay {
+  0%,
+  50%,
+  100% {
+    -webkit-transform: scaleY(0.4);
+  }
+  20% {
+    -webkit-transform: scaleY(1);
+  }
+}
+
+#loading3 div {
+  margin-right: 4px;
+}
+
+#loading4 {
+  position: absolute;
+  width: 60px;
+  height: 30px;
+}
+#loading4 > div {
+  width: 6px;
+  height: 30px;
+  display: inline-block;
+  background-color: #4caf50;
+}
+#loading4 div {
+  margin-right: 4px;
+}
+
+.progress {
+  background-color: #216581;
+  // background-color: #191919; 
+  p, span {
+    color: #fff;
+  }
+}
+p {
+  color: #191919;
+}
+
+
+.spin {
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+}
+@keyframes spin {
+  from {
+      transform:rotate(0deg);
+  }
+  to {
+      transform:rotate(360deg);
+  }
+}

@@ -1,26 +1,126 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
+// http://ionicframework.com/docs/theming/
+// https://animista.net/  for animations
+// https://undraw.co/search for svg
+@import url("https://fonts.googleapis.com/css?family=Rubik:300,400,500,700");
 
-/* Core CSS required for Ionic components to work properly */
 @import "~@ionic/angular/css/core.css";
-
-/* Basic CSS for apps built with Ionic */
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
 
-/* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
 @import "~@ionic/angular/css/float-elements.css";
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+// EXTRA GLOBAL STYLES
+// Add custom Ionic Colors
+@import "./theme/custom-ion-colors.scss";
+// Add base app styles
+@import "./theme/app-defaults.scss";
+// Add base shell styles
+@import "./theme/shell-defaults.scss";
+
+.my-custom-modal-css .modal-wrapper {
+  max-width: 280px;
+  border-radius: 2px;
+  width: 80vw;
+  height: 50vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  border: 0;
+  box-shadow: 0 16px 20px rgba(0, 0, 0, 0.4);
+  background-color: #fafafa;
+}
+.my-custom-modal-css-wallet .modal-wrapper {
+  max-width: 280px;
+  border-radius: 2px;
+  width: 80vw;
+  height: 60vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  border: 0;
+  box-shadow: 0 16px 20px rgba(0, 0, 0, 0.4);
+  background-color: #fafafa;
+}
+
+
+
+ion-content {
+  --ion-background-color: #f3f1f1;
+}
+
+.glass-card:last-child {
+  margin-bottom: 10vh;
+}
+
+
+
+ion-alert {
+  --color: #256185 !important;
+  .alert-radio-label.sc-ion-alert-md {
+    color: var(--ion-color-primary);
+  }
+  [aria-checked="true"].sc-ion-alert-md .alert-radio-label.sc-ion-alert-md {
+    color: var(--ion-color-primary);
+  }
+}
+
+ion-app.has-camera,
+ion-app.has-camera ion-content {
+  --background: transparent;
+  background: transparent !important;
+}
+
+
+// ion-alert {
+//   .alert-wrapper.sc-ion-alert-md {
+//     background-color: #f8f4aa;
+//     --background: linear-gradient(
+//       to right,
+//       rgba(255, 0, 0, 0),
+//       rgba(255, 0, 0, 1)
+//     );
+//     box-shadow: inset 0 0 75px rgba(255, 210, 0, 0.3),
+//       inset 0 0 20px rgba(255, 210, 0, 0.4),
+//       inset 0 0 30px rgba(220, 120, 0, 0.8);
+//   }
+//   .alert-title.sc-ion-alert-md {
+//     font-size: 25px;
+//     font-weight: 600;
+//     font-family: "AustralisProSwash-Italic";
+//     color: var(--ion-text-color, #00000080);
+//   }
+//   [aria-checked="true"].sc-ion-alert-md .alert-radio-icon.sc-ion-alert-md {
+//     border-color: #00000080;
+//   }
+//   .alert-radio-inner.sc-ion-alert-md {
+//     background-color: #00000080 !important;
+//   }
+//   .alert-radio-label.sc-ion-alert-md {
+//     white-space: pre-line !important;
+//     font-family: "AustralisProSwash-Italic";
+//     color: var(--ion-text-color, #000000b3);
+//     font-weight: bold;
+//   }
+//   .alert-tappable.sc-ion-alert-md {
+//     height: 77px !important;
+//   }
+
+//   [aria-checked="true"].sc-ion-alert-md .alert-radio-label.sc-ion-alert-md {
+//     color: var(--ion-color-step-850, #262626);
+//   }
+
+//   .alert-button-inner.sc-ion-alert-md {
+//     color: #00000080;
+//     font-weight: bold;
+//     font-size: larger;
+//   }
+// }

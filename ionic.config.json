@@ -1,5 +1,5 @@
 {
-  "name": "eZPlugApp",
+  "name": "eZPlug",
   "integrations": {
     "capacitor": {}
   },

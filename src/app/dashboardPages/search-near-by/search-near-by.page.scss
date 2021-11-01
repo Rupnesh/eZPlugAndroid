@@ -1,0 +1,130 @@
+@import "../../../theme/mixins/inputs/select-alert";
+google-map {
+  display: block;
+  width: 100%;
+  height: 200px;
+}
+
+.glass-card {
+  border-radius: 16px; 
+  // background: #e0e0e0; 
+  box-shadow:  20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+}
+.glass-card-inner {
+  border-radius: 16px; 
+  // background: #e0e0e0; 
+  box-shadow:  20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+}
+ion-item {
+  --background: transparent !important;
+}
+
+:host {
+  --page-page-color: var(--ion-color-page-content);
+}
+
+
+ion-content{
+  --ion-background-color:var(--page-page-color);
+}
+
+ion-card {
+  background-color: #fff !important;
+}
+
+.item-40px{
+  --min-height: 32px !important;
+  --max-height: 32px !important;  
+  height: 32px !important;  
+  --inner-padding-end: 0px !important;
+}
+
+
+.greenGradient {
+  background-color: #00b712;
+background-image: linear-gradient(315deg, #00b712 0%, #5aff15 74%);
+}
+.redGradient {
+  background-color: #fc9842;
+  background-image: linear-gradient(315deg, #fc9842 0%, #fe5f75 74%);
+}
+.grayGradient {
+  background-color: #8b8b8b;
+  background-image: linear-gradient(315deg, #8b8b8b 0%, #cccccc 74%);
+}
+
+
+
+.range-item {
+  --ion-grid-column-padding: 0px;
+
+  padding-top: var(--page-margin);
+  padding-inline-start: var(--page-margin);
+  padding-inline-end: var(--page-margin);
+  // box-shadow at the top
+  box-shadow: inset 0 6px 3px -8px  var(--ion-color-darkest);
+
+  .range-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: calc(var(--page-margin) / 2);
+
+    .range-value {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      color: var(--ion-color-medium);
+    }
+
+    .range-label {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      color: var(--ion-color-medium);
+    }
+  }
+
+  .range-control {
+    // override the pin color
+    --ion-text-color: var(--ion-color-medium);
+
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+}
+
+
+::ng-deep .station-alert {
+  @include select-alert();
+
+  // Variables should be in a deeper selector or after the mixin include to override default values
+  --select-alert-color: #fff;
+  // --select-alert-color: var(--ion-color-lightest);
+  --select-alert-background: var(--ion-color-primary);
+  --select-alert-margin: var(--app-fair-margin);
+
+  .alert-message {
+    display: none;
+  }
+
+  .alert-radio-label.sc-ion-alert-md {
+    color: var(--ion-color-medium);
+    // color: var(--ion-color-primary);
+  }
+  [aria-checked="true"].sc-ion-alert-md .alert-radio-label.sc-ion-alert-md {
+    color: #fff;
+  }
+  [aria-checked="true"].sc-ion-alert-md .alert-radio-icon.sc-ion-alert-md {
+    border-color: #fff;
+    // border-color: var(--ion-color-primary, #3880ff);
+  }
+  [aria-checked=true].sc-ion-alert-md .alert-radio-inner.sc-ion-alert-md  {
+    background-color: #fff;
+  }
+   
+}
+
+
+
+
+

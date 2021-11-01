@@ -1,0 +1,197 @@
+ion-content {
+  // --background: linear-gradient(135deg, #216581 10%, #9708cc 100%);
+  --background: linear-gradient(135deg, #9708cc 10%, #216581 100%);
+}
+@-webkit-keyframes slide-in-bottom{0%{-webkit-transform:translateY(1000px);transform:translateY(1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}@keyframes slide-in-bottom{0%{-webkit-transform:translateY(1000px);transform:translateY(1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}
+.container {
+  -webkit-animation:slide-in-bottom .5s cubic-bezier(.25,.46,.45,.94) both;animation:slide-in-bottom .5s cubic-bezier(.25,.46,.45,.94) both;  min-height: 300px;
+  width: auto;
+  min-height: 0;
+  display: block;
+  margin: 0 auto;
+}
+ion-col {
+  background-color: var(--ion-color-page-content);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+}
+.parent {
+  width: 100%;
+  padding: 0px 10px 10px 10px;
+  bottom: 0;
+  position: absolute;
+}
+.svgImage {
+  margin-top: 100px;
+  height: 180px;
+  padding-bottom: 12px;
+}
+ion-button {
+  --background: linear-gradient(135deg, #216581 10%, #9708cc 100%);
+  margin-top: 24px;
+  height: 42px;
+}
+.form {
+  padding: 16px;
+  ion-item {
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: #216581;
+    margin-top: 42px;
+    
+  }
+}
+ion-input {
+  max-height: 10vh;
+  color: #216581;
+}
+
+// :host {
+//   --page-margin: var(--app-broad-margin);
+//   --page-background: var(--ion-color-primary-gradient-background);
+// }
+
+// .header-text {
+//   margin-block-start: 0;
+//   margin-block-end: 0;
+// }
+// .web-background {
+//   background: #317b99;
+//   border-radius: 16px;
+// }
+
+// ion-input{
+//   border-radius: 10px !important;
+//   padding-right: 30px;
+//   font-size: 0.9em;
+//   max-height: 10vh;
+//   text-align: left;
+// }
+
+// .item-has-focus{
+//   --highlight-background: transparent;
+//   ion-label {
+//     color: #fff;
+//   }
+// }
+
+// .input-item {
+//   // --padding-start: 0px;
+//   --padding-end: 0px;
+//   --inner-padding-end: 0px;
+//   color: #fff;
+//   // --border-color: #fff;
+//   --background: transparent;
+//   border: 1px solid;
+// }
+
+// .vertical-align-content > * {
+//   display: flex!important;
+//      align-content: center!important;
+//      align-items: center!important;
+// }
+
+// .login-content {
+//   --background: var(--page-background);
+//   --padding-start: var(--page-margin);
+//   --padding-end: var(--page-margin);
+//   --padding-top: var(--page-margin);
+//   --padding-bottom: var(--page-margin);
+
+//   .auth-title {
+//     color: var(--ion-color-dark);
+//     font-weight: bold;
+//     margin-top: calc(var(--page-margin) / 2);
+//     margin-bottom: calc(var(--page-margin) * (3/2));
+//     letter-spacing: 0.6px;
+//   }
+
+//   .inputs-list {
+//     --ion-item-background: transparent;
+
+//     .input-item {
+//       --padding-start: 0px;
+//       --padding-end: 0px;
+//       --inner-padding-end: 0px;
+//       color: #fff;
+//       --border-color: #fff;
+//       --highlight-color-invalid: #f39696;
+//     }
+
+//     .error-container {
+//       .error-message {
+//         margin: calc(var(--page-margin) / 2) 0px;
+//         display: flex;
+//         align-items: center;
+//         color: #f39696;
+//         font-size: 14px;
+//         ion-icon {
+//           padding-inline-end: calc(var(--page-margin) / 2);
+//         }
+//       }
+//     }
+//   }
+
+//   .login-btn {
+//     margin: calc(var(--page-margin) / 2) 0px;
+//     --background: #00d4ff;
+//   }
+
+//   .other-auth-options-row {
+//     justify-content: space-between;
+//     align-items: center;
+//     .forgot-btn {
+//       --color: #fff;
+//       margin: 0px;
+//     }
+//     .signup-btn {
+//       --color: #fff;
+//       margin: 0px;
+//     }
+//   }
+
+//   .social-auth-options {
+//     .options-divider {
+//       color: var(--ion-color-medium);
+//   		margin: var(--page-margin) 0px;
+//   		text-align: center;
+//     }
+
+//     .social-auth-btn {
+//       margin: 0px;
+
+//       &:not(:first-child) {
+//         margin-top: var(--page-margin);
+//       }
+//     }
+//   }
+// }
+
+// h6 {
+//   overflow: hidden;
+//   text-align: center;
+//   margin: 16px 5px;
+//   color: #fff;
+// }
+
+// h6:before,
+// h6:after {
+//   background-color: #fff;
+//   content: "";
+//   display: inline-block;
+//   height: 1px;
+//   position: relative;
+//   vertical-align: middle;
+//   width: 50%;
+// }
+
+// h6:before {
+//   right: 0.5em;
+//   margin-left: -50%;
+// }
+
+// h6:after {
+//   left: 0.5em;
+//   margin-right: -50%;
+// }

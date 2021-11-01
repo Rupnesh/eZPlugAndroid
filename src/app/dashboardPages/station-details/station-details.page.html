@@ -1,0 +1,308 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button *ngIf="!routedFromNearby" defaultHref="/app/dashboard"></ion-back-button>
+      <ion-back-button *ngIf="routedFromNearby" routerLink="/app/search-near-by"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Ready to Charge</ion-title>
+  </ion-toolbar>
+</ion-header>  
+
+<ion-content class="ion-padding-start ion-padding-end" *ngIf="stationDetails.hasError == false">
+
+  <ion-row *ngIf="minimumBalance?.isMinimumWalletBalanceMaintained == false">
+    <ion-col size="8" style="line-height: 3;"><p style="color: #e53935;">Low balance!</p></ion-col>
+    <ion-col size="4" class="ion-text-right"><ion-button (click)="showWalletModal()" fill="clear" >Load</ion-button></ion-col>
+  </ion-row>
+
+  <ion-row > 
+
+    <ion-col size="12">
+      <ion-item class="item-40px">
+        <div style="display: flex; flex-direction: column;">
+          <ion-text color="primary" style="font-size: 20px; font-weight: 500;">{{stationDetails.siteName}}</ion-text>
+          <ion-text class="text-muted" style="font-weight: 450;" color="primary">{{stationDetailsStorage.stationName}}</ion-text>
+        </div>
+        <ion-label style="text-align: right;" (click)="markAsFavourite()"> 
+            <ion-icon fill="#e53935" [name]="stationDetails?.isMarkedAsFavourite ? 'heart' : 'heart-outline'" [style.color]="'#e53935'" style="font-size: 28px;"></ion-icon>
+        </ion-label>
+
+      </ion-item>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-label class="text-muted">{{stationDetails.address}}</ion-label>
+        </ion-col>
+        
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          <span class="text-muted" style="line-height: 2.5;" *ngIf="!stationDetails.isAvailable247">{{stationDetails.startTime | date:'shortTime' }} -
+            {{ stationDetails.endTime | date:'shortTime'}}</span>
+          <span class="text-muted" style="line-height: 2.5;" *ngIf="stationDetails.isAvailable247">Open 24/7</span>
+        </ion-col>
+        <ion-col size="6" class="ion-text-right">
+          <div class="text-muted" style="line-height: 2.5;" (click)="callStation(stationDetails.contact)">
+            <span >
+              <ion-icon style="margin-right:5px" name="call" color="primary"></ion-icon>
+              {{stationDetails.contact}}
+            </span>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+
+        <ion-col size="7">
+          <div style="display: flex; flex-direction: row;">
+
+            <ion-chip color="primary">
+              <ion-label>{{stationDetails?.isPublic ? 'Public' : 'Private' }}</ion-label>
+            </ion-chip>
+            <ion-chip color="primary">
+              <ion-label>{{stationDetails.isAvailable ? 'Open' : 'Closed'}}</ion-label>
+            </ion-chip>
+          </div>
+        </ion-col>
+        <ion-col size="5" class="ion-text-right">
+          <ion-chip [ngStyle]="{'background-color': stationDetails.isConnectedToIoTHub ? (stationDetails.isAvailable ? 'lightgreen' : 'lightgray') : 'lightred' }" >
+            <ion-label>{{stationDetails.isConnectedToIoTHub ?  (stationDetails.isAvailable ? stationDetails.stationStatus : stationDetails.stationStatus ) : 'Offline'}}</ion-label>
+         </ion-chip>
+        </ion-col>
+      </ion-row>
+
+      <ion-row style="height: auto !important;">
+        <ion-col size="12">
+          <span style="font-size: 14px; font-weight: 500; letter-spacing: 0.2px; color: var(--ion-color-primary-tint);">Pricing Options</span>
+          <span style="float: right; font-size: 14px;"> ₹ {{stationDetails.pricingDetails}}/unit</span>
+        </ion-col>
+
+        <ion-col size="12">
+          <ion-radio-group (ionChange)="radioPriceChange(selectPricing)" [(ngModel)]="selectPricing">
+            <ion-row class="radio-tags">
+              <ion-item class="radio-tag" lines="none" *ngFor="let type of pricingOptions">
+                <ion-icon style="height: 14px; width: 14px;" *ngIf="type === 'full'" class="tag-label"
+                  name="speedometer">
+                </ion-icon>
+                <ion-icon style="height: 14px; width: 14px;" *ngIf="type === 'Price'" class="tag-label inr-logo" 
+                  [src]="selectPricing === 'Price' ? '../../assets/images/logo-inr-white.svg' : '../../assets/images/logo-inr.svg'">
+                </ion-icon>
+                <ion-icon style="height: 14px; width: 14px;" *ngIf="type === 'Unit'" class="tag-label" name="flash">
+                </ion-icon>
+                <ion-icon style="height: 14px; width: 14px;" *ngIf="type === 'Time'" class="tag-label" name="time">
+                </ion-icon>
+                <ion-text color="primary" class="ion-text-capitalize" class="">{{type}}</ion-text>
+                <ion-radio [value]="type" [disabled]="!minimumBalance?.isMinimumWalletBalanceMaintained"></ion-radio>
+              </ion-item>
+            </ion-row>
+          </ion-radio-group>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row *ngIf=" selectPricing === 'Price'" style="height: auto !important;padding-inline-start: 5px;
+      padding-inline-end: 5px;
+      box-shadow: none;" class="range-item">
+        <ion-col size="12">
+          <div class="range-header" style="padding-bottom: 0;">
+            <span style="display: inline-flex;align-items: center;" class="range-label">Amount</span>
+            <ion-chip color="primary">
+              {{ valueSliderPrice }}
+            </ion-chip>
+          </div>
+        </ion-col>
+        <ion-col size="12" *ngIf="estimatedData">
+          <ion-range color="primary" style="padding-inline-start: 0;" pin="true" [(ngModel)]="valueSliderPrice"
+          color="primary" class="range-control" (ionChange)="onProgressChangeEnd()" [debounce]="300" min="1" [max]="walletBalance" step="1"></ion-range>
+        </ion-col>
+
+        <ion-col size="12">
+          <span style="height: 42px; display: inline-flex; align-items: center;">Calculating Estimated values
+            <ion-spinner *ngIf="estimatedLoader" style="margin-left:10px" color="primary" name="bubbles"></ion-spinner>
+          </span>
+
+          <ion-row class="ion-justify-content-center " *ngIf="estimatedFlag">
+            <ion-col size="4" size-sm="4" size-md="3" size-lg="3" size-xl="2" class="ion-text-left progress">
+              <p>{{convertToTimeFormat(estimatedData.timeTaken)}}</p>
+              <ion-label>&nbsp;Time</ion-label>
+            </ion-col>
+            <ion-col size="4" size-sm="4" size-md="3" size-lg="3" size-xl="2" class="ion-text-center progress">
+              <p>{{returnNumber(estimatedData.unitsConsumed)}}</p>
+              <ion-label>&nbsp;Units</ion-label>
+            </ion-col>
+            <ion-col size="4" size-sm="4" size-md="3" size-lg="3" size-xl="2" class="ion-text-right progress">
+              <p>{{returnNumberPrice(estimatedData.estimatedCost)}}</p>
+              <ion-label>&nbsp;Cost</ion-label> 
+            </ion-col>
+          </ion-row>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row *ngIf="selectPricing === 'Unit'" style="height: auto !important;padding-inline-start: 5px;
+      padding-inline-end: 5px;
+      box-shadow: none;" class="range-item">
+        <ion-col size="12">
+          <div class="range-header" style="padding-bottom: 0;">
+            <span style="display: inline-flex;align-items: center;" class="range-label">Units</span>
+            <ion-chip color="primary">
+              {{ valueSliderUnits }} Units
+            </ion-chip>
+          </div>
+        </ion-col>
+        <ion-col size="12" *ngIf="estimatedData">
+          <ion-range style="padding-inline-start: 0;" pin="true" [(ngModel)]="valueSliderUnits" class="range-control"
+          color="primary" class="range-control" (ionChange)="onProgressChangeEnd()" [debounce]="300" min="1" [max]="maxSliderUnits" step="1"></ion-range>
+        </ion-col>
+
+        <ion-col size="12">
+          <span style="height: 42px; display: inline-flex; align-items: center;">Calculating Estimated values
+            <ion-spinner *ngIf="estimatedLoader" style="margin-left:10px" color="primary" name="bubbles"></ion-spinner>
+          </span>
+
+          <ion-row class="ion-justify-content-center " *ngIf="estimatedFlag">
+            <ion-col size="4" size-sm="4" size-md="3" size-lg="3" size-xl="2" class="ion-text-left progress">
+              <p>{{convertToTimeFormat(estimatedData.timeTaken)}}</p>
+              <ion-label>&nbsp;hour</ion-label>
+            </ion-col>
+            <ion-col size="4" size-sm="4" size-md="3" size-lg="3" size-xl="2" class="ion-text-center progress">
+              <p>{{returnNumber(estimatedData.unitsConsumed)}}</p>
+              <ion-label>&nbsp;units</ion-label>
+            </ion-col>
+            <ion-col size="4" size-sm="4" size-md="3" size-lg="3" size-xl="2" class="ion-text-right progress">
+              <p>{{returnNumberPrice(estimatedData.estimatedCost)}}</p>
+              <ion-label>&nbsp;cost</ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row *ngIf="selectPricing === 'Time'" style="height: auto !important;padding-inline-start: 5px;
+      padding-inline-end: 5px; box-shadow: none;" class="range-item">
+        <ion-col size="12">
+          <div class="range-header" style="padding-bottom: 0;">
+            <span style="display: inline-flex;align-items: center;" class="range-label">Time</span>
+            <ion-chip color="primary">
+              {{ valueSliderTime }} Minutes
+            </ion-chip>
+          </div>
+        </ion-col>
+        <ion-col size="12" *ngIf="estimatedData">
+          <ion-range style="padding-inline-start: 0;" pin="true" [(ngModel)]="valueSliderTime" class="range-control"
+          color="primary" class="range-control" (ionChange)="onProgressChangeEnd()" [debounce]="300" min="1" [max]="maxSliderTime" step="1"></ion-range>
+        </ion-col>
+
+        <ion-col size="12">
+          <span style="height: 42px; display: inline-flex; align-items: center;">Calculating Estimated values
+            <ion-spinner *ngIf="estimatedLoader" style="margin-left:10px" color="primary" name="bubbles"></ion-spinner>
+          </span>
+
+          <ion-row class="ion-justify-content-center " *ngIf="estimatedFlag">
+            <ion-col size="4" size-sm="4" size-md="3" size-lg="3" size-xl="2" class="progress">
+              <p>{{convertToTimeFormat(estimatedData.timeTaken)}}</p>
+              <ion-label>&nbsp;hour</ion-label>
+            </ion-col>
+            <ion-col size="4" size-sm="4" size-md="3" size-lg="3" size-xl="2" class="ion-text-center progress">
+              <p>{{returnNumber(estimatedData.unitsConsumed)}}</p>
+              <ion-label>&nbsp;units</ion-label>
+            </ion-col>
+            <ion-col size="4" size-sm="4" size-md="3" size-lg="3" size-xl="2" class="ion-text-right progress">
+              <p>{{returnNumberPrice(estimatedData.estimatedCost)}}</p>
+              <ion-label>&nbsp;cost</ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+
+      </ion-row>
+
+
+    </ion-col>
+
+    <div *ngIf="stationDetails?.isConnectedToIoTHub && (stationDetails?.stationStatus == 'Available' || stationDetails?.stationStatus == 'Occupied') && minimumBalance?.isMinimumWalletBalanceMaintained ; else elseBlock">
+
+    <ion-card *ngIf="stationDetails.chargingStatus == 'NotCharging' ">
+      <ion-row>
+        <ion-col size="12" size-sm="12" size-md="12" size-lg="12" size-xl="12">
+
+          <ion-row>
+            <ion-col size="6" size-sm="6" size-md="6" size-lg="3" size-xl="3" class="ion-text-center">
+              <div class="avatar-circle" id="icon-unlock">
+                <ion-icon class="initials" [color]="!btnUnlock ? 'primary' : 'light'" name="lock-open-outline">
+                </ion-icon>
+              </div>
+              <ion-text color="primary" style="display: grid" [ngClass]="btnUnlock ? 'text-icon-muted' : '' ">
+                <ion-label style="font-size: 12px;padding-top: 10px;">Step 1</ion-label>
+                <ion-label #iconunlockText id="iconunlockText" style="font-size: 12px;">Unlock box</ion-label>
+              </ion-text>
+              <ion-button class="animateButton" id="iconunlockButton" *ngIf="!btnUnlockLoader" [disabled]="btnUnlock"
+                (click)="boxSteps('unlock')" shape="outline" expand="block">UNLOCK
+              </ion-button>
+
+              <ion-button *ngIf="btnUnlockLoader" [disabled]="btnUnlock" shape="outline" expand="block">
+                <ion-spinner style="text-align: center; display: block; margin: 0 auto;" name="bubbles"></ion-spinner>
+              </ion-button>
+
+            </ion-col>
+            <ion-col size="6" size-sm="6" size-md="6" size-lg="3" size-xl="3" class="ion-text-center">
+              <ion-icon #iconplug id="icon-plug" class="initials" [color]="!btnPlugged ? 'primary' : 'light'"
+                name="git-branch-outline"></ion-icon>
+              <ion-text color="primary" style="display: grid" [ngClass]="btnPlugged ? 'text-icon-muted' : '' ">
+                <ion-label style="font-size: 12px;padding-top: 10px;">Step 2</ion-label>
+                <ion-label style="font-size: 12px;">Plug Cable</ion-label>
+              </ion-text>
+
+              <ion-button class="animateButton" *ngIf="!btnPlugBoxLoader" [disabled]="btnPlugged"
+                (click)="boxSteps('plugged')" shape="outline" expand="block">DONE
+              </ion-button>
+
+              <ion-button *ngIf="btnPlugBoxLoader" [disabled]="btnPlugged" shape="outline" expand="block">
+                <ion-spinner style="text-align: center; display: block; margin: 0 auto;" name="bubbles"></ion-spinner>
+              </ion-button>
+
+            </ion-col>
+
+
+            <ion-col size="6" size-sm="6" size-md="6" size-lg="3" size-xl="3" class="ion-text-center">
+              <ion-icon #iconlockbox id="icon-lockbox" class="initials" [color]="!btnLock ? 'primary' : 'light'"
+                name="lock-closed-outline"></ion-icon>
+              <ion-text color="primary" style="display: grid" [ngClass]="btnLock ? 'text-icon-muted' : '' ">
+                <ion-label style="font-size: 12px;padding-top: 10px;">Step 3</ion-label>
+                <ion-label style="font-size: 12px;">Lock box</ion-label>
+              </ion-text>
+
+              <ion-button class="animateButton" *ngIf="!btnLockBoxLoader" [disabled]="btnLock"
+                (click)="boxSteps('lock')" shape="outline" expand="block">LOCK
+              </ion-button>
+
+              <ion-button *ngIf="btnLockBoxLoader" [disabled]="btnLock" shape="outline" expand="block">
+                <ion-spinner style="text-align: center; display: block; margin: 0 auto;" name="bubbles"></ion-spinner>
+              </ion-button>
+
+            </ion-col>
+
+            <ion-col size="6" size-sm="6" size-md="6" size-lg="3" size-xl="3" class="ion-text-center">
+              <ion-icon #iconproceed id="icon-proceed" class="initials" [color]="!btnStartCharge ? 'primary' : 'light'"
+                name="flash-outline"></ion-icon>
+              <ion-text color="primary" style="display: grid" [ngClass]="btnStartCharge ? 'text-icon-muted' : '' ">
+                <ion-label style="font-size: 12px;padding-top: 10px;">Step 4</ion-label>
+                <ion-label style="font-size: 12px;">Start Charging</ion-label>
+              </ion-text>
+              <ion-button class="animateButton" [disabled]="btnStartCharge" (click)="boxSteps('charge')" shape="outline"
+                expand="block">
+                PROCEED
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </div>
+
+  <ng-template #elseBlock> </ng-template>
+
+  </ion-row>
+
+</ion-content>

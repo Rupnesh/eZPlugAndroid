@@ -1,6 +1,7 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "eZPlugApp",
+	"appId": "io.ev.eZCharge",
+	"appName": "eZPlug",
 	"webDir": "www",
 	"bundledWebRuntime": false
 }
+
