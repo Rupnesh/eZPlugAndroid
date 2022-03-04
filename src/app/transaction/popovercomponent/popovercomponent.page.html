@@ -1,0 +1,30 @@
+<ion-content padding>
+  <ion-list>
+    <ion-radio-group [(ngModel)]="selectedFilter" [value]="selectedFilter" (ionChange)="onSelect($event)">
+      <ion-list-header>
+        <ion-label>Set Filter</ion-label>
+      </ion-list-header>
+  
+      <ion-item>
+        <ion-label>Show All</ion-label>
+        <ion-radio slot="start" value="all"></ion-radio>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>This Month</ion-label>
+        <ion-radio slot="start" value="currentmonth"></ion-radio>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Last Month</ion-label>
+        <ion-radio slot="start" value="lastmonth"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Last 3 Month</ion-label>
+        <ion-radio slot="start" value="last3month"></ion-radio>
+      </ion-item>
+
+    </ion-radio-group>
+  </ion-list>
+</ion-content> 

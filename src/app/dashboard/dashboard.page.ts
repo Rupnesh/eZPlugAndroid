@@ -379,6 +379,7 @@ export class DashboardPage {
       this.dashboardService.getStationList(item.siteID).subscribe(data => {
         if (data.hasError === false) {
           this.stationList = data.stationViewModels;
+
           this.pricingDetails = data.pricingDetails
           this.dashboardService.setItem1(constString.PRICING_DETAILS, this.pricingDetails.toString())
           this.stationListError = true;
@@ -401,7 +402,10 @@ export class DashboardPage {
 
   stationDetails(station) {
     this.dashboardService.setObject(station, constString.STATION_DETAILS).then(data => {
-      this.router.navigate(['app/station-details'])
+      if(station.stationName.includes("BLE-", 0))
+        this.router.navigate(['app/station-details-ble'])
+      else
+        this.router.navigate(['app/station-details'])
     });
     
   } 
@@ -446,8 +450,11 @@ export class DashboardPage {
           },
           { text: 'OK',
             handler: (data) => { 
-              this.dashboardService.setObject(data, constString.STATION_DETAILS).then(data => {
-                this.router.navigate(['app/station-details'],{replaceUrl:true, state: { nearby: false }})
+              this.dashboardService.setObject(data, constString.STATION_DETAILS).then(data1 => {
+                if(data.stationName.includes("BLE-", 0))
+                  this.router.navigate(['app/station-details-ble'])
+                else
+                  this.router.navigate(['app/station-details'],{replaceUrl:true, state: { nearby: false }})
               })
               
             }

@@ -39,8 +39,8 @@
 .my-custom-modal-css-wallet .modal-wrapper {
   max-width: 280px;
   border-radius: 2px;
-  width: 80vw;
-  height: 60vh;
+  width: 85vw;
+  height: 80%;
   top: 0;
   bottom: 0;
   left: 0;
@@ -77,6 +77,16 @@ ion-app.has-camera,
 ion-app.has-camera ion-content {
   --background: transparent;
   background: transparent !important;
+}
+
+.my-custom-class .popover-content {
+  width: 60%;
+  top: 70px !important;
+  left: 140px !important;
+  bottom: 70px;
+  height: 270px !important;
+  background: #f3f1f1 !important;
+
 }
 
 

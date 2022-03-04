@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
+import { ModalController } from '@ionic/angular';
 import { constString } from '../../constString';
 import { DashBoardService } from '../../dashboard/dashboard.service';
 import { LoaderService } from '../../services/loading.service';
@@ -20,7 +21,7 @@ export class WalletModal implements OnInit {
   userID              : any;
   @Input() showMenu   : boolean;
 
-  constructor(private dashboardService: DashBoardService, private iab: InAppBrowser,private loaderService: LoaderService) { 
+  constructor(private dashboardService: DashBoardService, private iab: InAppBrowser,private loaderService: LoaderService, private modlCtrl: ModalController) { 
     
   }
 
@@ -117,6 +118,10 @@ export class WalletModal implements OnInit {
           this.tagDefaultColor[i] = "dark"
         }
       }
+  }
+
+  closeModal() {
+    this.modlCtrl.dismiss();
   }
 
 }

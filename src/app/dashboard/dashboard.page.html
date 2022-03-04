@@ -8,19 +8,19 @@
     <ion-title>
       Dashboard
     </ion-title>
-    <ion-buttons slot="primary" >
+    <!-- <ion-buttons slot="primary" >
       <ion-button fill="clear" *ngIf="isOn" (click)="isOn = !isOn">
         <ion-icon slot="end" name="close-outline"></ion-icon>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
 <ion-content #scrollArea scrollEvents="true" >
 
   
-  <div *ngIf="isOn" class="scan-box">
-  </div>
+  <!-- <div *ngIf="isOn" class="scan-box">
+  </div> -->
 
   <ion-item-group >
     <ion-item-divider sticky style="padding-left: 0;background-color: #fff; border-bottom: none;background: #216581;
@@ -146,10 +146,16 @@
                   <div style="width: 100%; display: flex; justify-content: space-between;">
                     <span style="display: flex;align-items: center;">
 
-                      <div [ngClass]="[ station.isAvailable && station.isConnectedToIoTHub ? 'greenGradient' : '', 
+                      <!-- <div [ngClass]="[ station.isAvailable && station.isConnectedToIoTHub ? 'greenGradient' : '', 
                         !station.isAvailable && !station.isConnectedToIoTHub ? 'grayGradient' : '',
                         !station.isAvailable && station.isConnectedToIoTHub ? 'redGradient' : '',
                         station.isAvailable && !station.isConnectedToIoTHub ? 'grayGradient' : '']"
+                        style="height: 20px;width: 20px; margin-right: 10px; border-radius:50%"></div> -->
+
+                      <div [ngClass]="[station.isConnectedToIoTHub && station.status === 'Available' ? 'greenGradient' : '', 
+                        station.isConnectedToIoTHub && station.status === 'Offline' ? 'grayGradient' : '',
+                        station.isConnectedToIoTHub && station.status === 'Occupied' ? 'redGradient' : '',
+                        !station.isConnectedToIoTHub ? 'grayGradient' : '']"
                         style="height: 20px;width: 20px; margin-right: 10px; border-radius:50%"></div>
 
                       <!-- <div [ngClass]="station.isAvailable && station.isConnectedToIoTHub ? 'greenGradient' : 'redGradient'"

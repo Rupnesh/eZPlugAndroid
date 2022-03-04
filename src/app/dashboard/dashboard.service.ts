@@ -163,7 +163,7 @@ export class DashBoardService {
   }
   
   public getRechargeWalletOrderStatus(orderID): Observable<any> {
-    return this.http.post<any>(`${constString.PATH_WALLET}${constString.GET_RECHARGE_WALLET_ORDER_STATUS}/${orderID}`, null);
+    return this.http.post<any>(`${constString.PATH_WALLET}${constString.GET_RECHARGE_WALLET_ORDER_STATUS}${orderID}`, null);
   }
   public rechargeWallet(data): Observable<any> {
     return this.http.post<any>(`${constString.PATH_WALLET}${constString.RECHARGE_WALLET}`, data);
