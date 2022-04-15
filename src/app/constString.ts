@@ -18,6 +18,7 @@ export const constString = {
     
     SEND_OTP: "SendOTP",
     VERIFY_OTP: "VerifyOTPAndLogin",
+    REFRESH_OTP: "RefreshToken",
 
     GET_STATIONBY_ID: "GetStationById",
     GET_STATIONBY_SITEID: "GetStationsBySiteId",

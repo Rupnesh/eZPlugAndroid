@@ -21,5 +21,8 @@ export class AuthService {
         // return this.http.post<any>(`${constString.PATH_SMS}${constString.VERIFY_OTP}`, data);
         return this.http.post<any>(`${environment.API_URL}${constString.PATH_SMS}${constString.VERIFY_OTP}`, data);
     }
+    refreshToken(data): Observable<any> {
+        return this.http.post<any>(`${environment.API_URL}${constString.PATH_SMS}${constString.REFRESH_OTP}`, data);
+    }
 
 }

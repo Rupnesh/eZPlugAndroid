@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { ToastController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { StorageService } from './storage.service';
+import { AuthService } from './auth.service';
+import { constString } from '../constString';
 
 @Injectable({
 	providedIn: 'root'
@@ -11,7 +13,8 @@ export class AlertService {
 	constructor(private toastController: ToastController,
 		public alertController: AlertController,
 		public router: Router,
-		public storage: StorageService) { }
+		public storage: StorageService,
+		private auth: AuthService) { }
 
 	async presentToast(msg) {
 		const toast = await this.toastController.create({
@@ -48,10 +51,19 @@ export class AlertService {
 		buttons: [
 			{
 				text: 'Okay',
-				handler: () => {
-					this.storage.removeItem().then(data => {
-						this.router.navigate([route])
-					});
+				handler: async () => {
+					let userDetails = await this.storage.getObject(constString.OTP_SESSION);
+					let refreshToken = userDetails.accessToken.refreshToken;
+          			let userId = userDetails.user.userId;
+					this.auth.refreshToken({refreshToken, userId}).subscribe(data => {
+						this.storage.setObject(constString.OTP_SESSION, data)
+					})
+					setTimeout( () => {
+						location.reload();
+					}, 5000)
+					// this.storage.removeItem().then(data => {
+					// 	this.router.navigate([route])
+					// });
 				}
 			}
 		]

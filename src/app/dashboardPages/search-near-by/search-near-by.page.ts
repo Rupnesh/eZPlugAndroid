@@ -40,7 +40,8 @@ export class SearchNearByPage implements OnInit {
   positionCords: any = {};
   subscription: any;
   stationListError:any = false;
-  
+  siteListError:any = false;
+
 
   constructor(private loadingController: LoadingController, public router: Router, private route: ActivatedRoute,
     private dashboardService: DashBoardService, public loaderService: LoaderService,private platform: Platform,
@@ -107,10 +108,11 @@ export class SearchNearByPage implements OnInit {
     let data = {
       "SearchRadius": 10, "Lattitude": Number(position.coords.latitude.toFixed(6)), "Longitude": Number(position.coords.longitude.toFixed(6))
     }
-
+    this.siteListError = true;
     this.dashboardService.getNearBySites(data).subscribe(data => {
       if (data.hasError === false) {
         // this.loaderService.hideLoader();
+        this.siteListError = false;
         this.siteList = data.siteViewModels;
         this.siteList.sort((a, b) => { return parseFloat(a.distance) - parseFloat(b.distance) });
         markers = this.siteList
@@ -122,6 +124,7 @@ export class SearchNearByPage implements OnInit {
     }, (error: any) => {
         // this.loaderService.hideLoader();
         this.siteList = []
+        this.siteListError = true;
         this.alertService.presentToast(constString.HTTP_RESPONSE_ERROR)      
     })
   }

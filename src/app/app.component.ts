@@ -24,7 +24,7 @@ import { OneSignal } from '@ionic-native/onesignal/ngx'
 
 import { ActiveTransactionForUser } from "./interfaces/activetransaction"
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -91,7 +91,8 @@ export class AppComponent implements OnInit {
     public signalRService: SignalRService,
     private oneSignal: OneSignal,
     private alertService: AlertService,
-    private iab: InAppBrowser
+    private iab: InAppBrowser,
+    private auth: AuthService
   ) {
     this.initializeApp();
     this.setLanguage();
@@ -279,17 +280,25 @@ export class AppComponent implements OnInit {
       }
       else {
         if (tokenExpired != undefined) {
-          const alert = await this.alertController.create({
-            message: 'Invalid session!!! Login Again.',
-            buttons: [{
-              text: 'Okay',
-              handler: () => {
-                this.storage.removeItem();
-                this.router.navigate(['auth/login']);
-              }
-            }]
-          });
-          await alert.present();
+          let refreshToken = this.userDetails.accessToken.refreshToken;
+          let userId = this.userDetails.user.userId;
+          this.auth.refreshToken({refreshToken, userId}).subscribe(data => {
+            this.storage.setObject(constString.OTP_SESSION, data)
+          })
+          let tokenExpired = await this.tokenValidity();
+          if (tokenExpired != undefined) {
+            const alert = await this.alertController.create({
+              message: 'Invalid session!!! Login Again.',
+              buttons: [{
+                text: 'Okay',
+                handler: () => {
+                  this.storage.removeItem();
+                  this.router.navigate(['auth/login']);
+                }
+              }]
+            });
+            await alert.present();
+          }
         }
         else {
           if (this.tutorialStatus == "true" && this.loginStatus == null) {
