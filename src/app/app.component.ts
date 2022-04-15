@@ -276,7 +276,7 @@ export class AppComponent implements OnInit {
           
         })
 
-        
+      
       }
       else {
         if (tokenExpired != undefined) {
