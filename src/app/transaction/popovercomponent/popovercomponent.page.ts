@@ -4,7 +4,7 @@ import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-popovercomponent',
-  templateUrl: './popovercomponent.page.html',
+  template: './popovercomponent.page.html',
   styleUrls: ['./popovercomponent.page.scss'],
 })
 export class PopovercomponentPage implements OnInit {

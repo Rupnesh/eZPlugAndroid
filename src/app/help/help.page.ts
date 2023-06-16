@@ -4,6 +4,8 @@ import { trigger, style, animate, transition, state } from '@angular/animations'
 import { Platform} from '@ionic/angular';
 import { DashBoardService } from '../dashboard/dashboard.service';
 import { NetworkService } from '../../app/services/network.service'
+import { AlertService } from '../services/alert.service';
+import { constString } from '../constString';
 
 @Component({
   selector: 'app-help',
@@ -42,7 +44,7 @@ export class HelpPage implements OnInit, AfterViewInit {
   networkStatus: any;
 
   constructor(private emailComposer: EmailComposer, private platform: Platform, 
-    private dashboardService: DashBoardService, public networkService: NetworkService,) {
+    private dashboardService: DashBoardService, public networkService: NetworkService, public alertService: AlertService) {
 
   } 
   async ionViewDidEnter() {
@@ -134,7 +136,17 @@ export class HelpPage implements OnInit, AfterViewInit {
       body: 'What kind of problem you are facing?',
       isHtml: true
     }
-    this.emailComposer.open(email);
+
+    this.emailComposer.isAvailable().then((available: boolean) => {
+      if(available) {
+        this.emailComposer.open(email);
+      }
+      else {
+        this.alertService.presentToast(constString.SOMETHING_WRONG)
+      }
+    }, (err) => {
+      this.alertService.presentToast(constString.SOMETHING_WRONG)
+    });
   }
   // isGroupShown(question) {
   //   return question.show;

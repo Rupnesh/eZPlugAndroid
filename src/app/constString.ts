@@ -106,7 +106,9 @@ export const constString = {
 
     USER_LANGUAGE: "USER_LANGUAGE",
     IS_CHARGING_ENABLED: "IS_CHARGING_ENABLED",
-    STOP_CLICKED: "STOP_CLICKED"
+    STOP_CLICKED: "STOP_CLICKED",
+
+    SOMETHING_WRONG: 'Something went wrong'
 
     
 }

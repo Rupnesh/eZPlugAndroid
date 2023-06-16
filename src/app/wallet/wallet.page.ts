@@ -81,9 +81,21 @@ export class WalletPage implements OnInit {
     const options: InAppBrowserOptions = { hideurlbar: 'yes', location: 'yes', hidenavigationbuttons: 'yes' }
     const browser = this.iab.create(paymentLink, '_blank', options);
     browser.on('loadstop').subscribe(event => {
-      var closeUrlTest = 'https://test.cashfree.com/billpay/sim/thankyou';
-      var closeUrlProd = 'https://www.cashfree.com/gateway/thankyou';
-      if (event.url == closeUrlProd || event.url == closeUrlTest || event.url == `${closeUrlTest}/`) {
+      var closeUrlTest = 'https://payments-test.cashfree.com/pgbillpayuiapi/gateway/process/sim';
+      // var closeUrlProd = 'https://payments.cashfree.com/pgbillpayuiapi/gateway/process/sim';
+      var closeUrlProd = 'https://payments.cashfree.com/pgbillpayuiapi/gateway/thankyou';
+
+      // var closeUrlTest = 'https://test.cashfree.com/billpay/sim/thankyou';
+      // var closeUrlProd = 'https://www.cashfree.com/gateway/thankyou';
+
+
+      //{"type":"loadstop","url":"https://test.cashfree.com/pgsim/simulator"}
+      //{"type":"loadstop","url":"https://payments-test.cashfree.com/pgbillpayuiapi/gateway/process/sim/o3AnDdNUZSrTc9WfRpJlstB0NWtAKOgJwCVNVM8fypgDnrPoQw=="}
+      
+      // {"type":"loadstop","url":"https://payments.cashfree.com/pgbillpayuiapi/gateway/thankyou/process/fuJRPxzvORbXUAXlbsRz9HT6FfAU8KCdKxvlhfWOwwDjcXSb_t0=?cfBrowserID=_15iczqrfw&appVersion=0.0.0"}
+      
+      // if (event.url == closeUrlProd || event.url == closeUrlTest || event.url == `${closeUrlTest}/`) {
+      if (event.url.includes(closeUrlProd) || event.url.includes(closeUrlTest) || event.url.includes(`${closeUrlTest}/`)) {
         browser.close();
         this.loaderService.showLoader('Loading...');
         this.dashboardService.getRechargeWalletOrderStatus(orderId).subscribe(data => {
@@ -98,6 +110,7 @@ export class WalletPage implements OnInit {
           this.loaderService.hideLoader()
         })
       }
+
     });
   }
 
